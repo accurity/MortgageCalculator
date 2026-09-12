@@ -12,13 +12,13 @@ declare(strict_types=1);
  * Draaien: php tests/parity.php
  */
 
-require __DIR__ . '/../src/bootstrap.php';
+require __DIR__ . '/../vendor/autoload.php';
 
-use Hypotheek\Design\Calculator;
-use Hypotheek\Design\Constants;
-use Hypotheek\Design\State;
-use Hypotheek\Design\Translations;
-use Hypotheek\Design\ViewModel;
+use App\Services\Mortgage\Calculator;
+use App\Services\Mortgage\Constants;
+use App\Services\Mortgage\State;
+use App\Services\Mortgage\Translations;
+use App\Services\Mortgage\ViewModel;
 
 $gevallen = [
     ['naam' => 'standaard kopen',        'in' => []],

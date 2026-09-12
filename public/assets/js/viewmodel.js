@@ -8,7 +8,7 @@
  *  - de geldverstrekkers komen uit data/lenders.php in plaats van uit een
  *    vaste lijst in de code.
  *
- * De sleutels zijn identiek aan die van Hypotheek\Design\ViewModel, zodat
+ * De sleutels zijn identiek aan die van App\Services\Mortgage\ViewModel, zodat
  * server- en clientrender inwisselbaar zijn.
  */
 (function (global) {
