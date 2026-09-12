@@ -1,3 +1,6 @@
 .idea/
 .vscode/
 *.log
+
+# Bronbestanden huisstijl (logo/psd/fonts) - niet publiceren vanuit de webroot
+/AssetsAccurity/

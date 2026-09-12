@@ -1,3 +1,13 @@
+/* Huisstijl Accurity - Bitter (variable) voor titels en koppen */
+@font-face {
+    font-family: "Bitter";
+    src: url("fonts/bitter-variable.woff2") format("woff2-variations"),
+         url("fonts/bitter-variable.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     color-scheme: light dark;
     --achtergrond: #f4f6f8;
@@ -5,13 +15,16 @@
     --rand: #d9e0e7;
     --tekst: #16212b;
     --tekst-zacht: #5a6b7a;
-    --accent: #0b5fa5;
-    --accent-zacht: #e6f0fa;
+    --accent: #027cb5;
+    --accent-donker: #01628f;
+    --accent-zacht: #e4f2f9;
     --waarschuwing: #a1490b;
     --waarschuwing-zacht: #fdf0e3;
     --fout: #a31515;
     --fout-zacht: #fbeaea;
     --radius: 10px;
+    --font-kop: "Bitter", Georgia, "Times New Roman", serif;
+    --font-tekst: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,8 +34,9 @@
         --rand: #2e3b47;
         --tekst: #e8eef3;
         --tekst-zacht: #9fb0bf;
-        --accent: #6cb2f0;
-        --accent-zacht: #1d303f;
+        --accent: #58b4e0;
+        --accent-donker: #7cc6ea;
+        --accent-zacht: #16303d;
         --waarschuwing: #f0b072;
         --waarschuwing-zacht: #37291a;
         --fout: #f08a8a;
@@ -37,16 +51,31 @@ body {
     padding: 0 1rem 4rem;
     background: var(--achtergrond);
     color: var(--tekst);
-    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font: 16px/1.55 var(--font-tekst);
 }
+
+h1, h2, h3, h4, legend, .tegel-waarde, details summary, .knop {
+    font-family: var(--font-kop);
+}
+h1, h2, h3, h4 { font-weight: 700; line-height: 1.25; }
 
 main, .site-header, .site-footer { max-width: 1180px; margin: 0 auto; }
 
-.site-header { padding: 2rem 0 1rem; }
-.site-header h1 { margin: 0 0 .25rem; font-size: 1.7rem; letter-spacing: -.02em; }
+.site-header { padding: 1.75rem 0 1rem; }
+.site-header .merk { display: block; margin: 0 0 1.25rem; }
+.site-header .merk img { display: block; height: 40px; width: auto; }
+.site-header h1 {
+    margin: 0 0 .35rem; font-size: 1.9rem; letter-spacing: -.01em;
+    color: var(--accent);
+}
 .site-header p { margin: 0; color: var(--tekst-zacht); max-width: 70ch; }
 
-.site-footer { padding: 2rem 0 0; color: var(--tekst-zacht); font-size: .85rem; }
+@media (max-width: 480px) {
+    .site-header .merk img { height: 30px; }
+    .site-header h1 { font-size: 1.5rem; }
+}
+
+.site-footer { padding: 2rem 0 0; margin-top: 1rem; border-top: 1px solid var(--rand); color: var(--tekst-zacht); font-size: .85rem; }
 .site-footer code { background: var(--kaart); padding: .1rem .3rem; border-radius: 4px; }
 
 .kaart {
@@ -56,8 +85,9 @@ main, .site-header, .site-footer { max-width: 1180px; margin: 0 auto; }
     padding: 1.25rem;
     margin-bottom: 1.25rem;
 }
-.kaart h2 { margin: 0 0 1rem; font-size: 1.15rem; }
+.kaart h2 { margin: 0 0 1rem; font-size: 1.2rem; color: var(--accent); }
 .optioneel {
+    font-family: var(--font-tekst);
     font-size: .7rem; font-weight: 500; text-transform: uppercase;
     letter-spacing: .06em; color: var(--tekst-zacht);
     border: 1px solid var(--rand); border-radius: 99px; padding: .1rem .5rem;
@@ -76,7 +106,7 @@ main, .site-header, .site-footer { max-width: 1180px; margin: 0 auto; }
     grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
     gap: .75rem 1rem;
 }
-.leningdeel legend { font-weight: 600; padding: 0 .4rem; }
+.leningdeel legend { font-weight: 700; padding: 0 .4rem; }
 .veld-breed { grid-column: 1 / -1; }
 
 .veld { display: flex; flex-direction: column; gap: .3rem; }
@@ -111,11 +141,12 @@ input[type="text"]:focus, select:focus {
 .verwijder:hover { color: var(--fout); border-color: var(--fout); }
 
 .knop {
-    font: inherit; font-weight: 600; cursor: pointer;
+    font-size: 1rem; font-weight: 600; cursor: pointer;
     padding: .6rem 1.1rem; border-radius: 8px; border: 1px solid var(--rand);
     background: var(--kaart); color: var(--tekst);
 }
 .knop-primair { background: var(--accent); border-color: var(--accent); color: #fff; }
+.knop-primair:hover { background: var(--accent-donker); border-color: var(--accent-donker); }
 .knop-secundair:hover { border-color: var(--accent); color: var(--accent); }
 .kaart-acties { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; }
 .knoppen { display: flex; gap: .6rem; flex-wrap: wrap; }
@@ -134,7 +165,7 @@ input[type="text"]:focus, select:focus {
     padding: .8rem .9rem; display: flex; flex-direction: column; gap: .2rem;
 }
 .tegel-label { font-size: .78rem; color: var(--tekst-zacht); text-transform: uppercase; letter-spacing: .04em; }
-.tegel-waarde { font-size: 1.35rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.tegel-waarde { font-size: 1.35rem; font-weight: 700; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
 .tegel-sub { font-size: .78rem; color: var(--tekst-zacht); }
 .tegel-accent { background: var(--accent-zacht); border-color: var(--accent); }
 .tegel-waarschuwing { background: var(--waarschuwing-zacht); border-color: var(--waarschuwing); }
@@ -143,7 +174,7 @@ input[type="text"]:focus, select:focus {
 .tabel-scroll { overflow-x: auto; }
 table { border-collapse: collapse; width: 100%; font-size: .88rem; }
 th, td { padding: .45rem .6rem; border-bottom: 1px solid var(--rand); text-align: left; white-space: nowrap; }
-thead th { position: sticky; top: 0; background: var(--kaart); font-size: .78rem; text-transform: uppercase; letter-spacing: .03em; color: var(--tekst-zacht); }
+thead th { position: sticky; top: 0; background: var(--kaart); font-family: var(--font-kop); font-weight: 700; font-size: .76rem; text-transform: uppercase; letter-spacing: .03em; color: var(--tekst-zacht); }
 tbody tr:hover { background: var(--accent-zacht); }
 .num { text-align: right; font-variant-numeric: tabular-nums; }
 .sterk { font-weight: 700; }
