@@ -4,3 +4,9 @@ services:
     ports:
       - "8080:80"
     restart: unless-stopped
+    # Broncode vanaf de host, zodat een wijziging direct zichtbaar is
+    # zonder rebuild. Read-only: de app schrijft zelf niets naar schijf.
+    volumes:
+      - ./public:/var/www/html/public:ro
+      - ./src:/var/www/html/src:ro
+      - ./templates:/var/www/html/templates:ro
