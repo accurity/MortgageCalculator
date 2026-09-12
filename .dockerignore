@@ -1,0 +1,12 @@
+.git
+.gitignore
+.idea
+.vscode
+*.log
+
+# Bronbestanden huisstijl: horen niet in het image
+AssetsAccurity
+
+tests
+README.md
+docker-compose.yml
