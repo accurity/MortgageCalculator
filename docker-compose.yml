@@ -7,6 +7,7 @@ services:
     # Broncode vanaf de host, zodat een wijziging direct zichtbaar is
     # zonder rebuild. Read-only: de app schrijft zelf niets naar schijf.
     volumes:
+      - ./data:/var/www/html/data:ro
       - ./public:/var/www/html/public:ro
       - ./src:/var/www/html/src:ro
       - ./templates:/var/www/html/templates:ro

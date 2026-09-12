@@ -1,0 +1,452 @@
+{
+ "nl": {
+  "tagline": "Woonlasten",
+  "navOverview": "Overzicht",
+  "navAdvanced": "Geavanceerd",
+  "themeTitle": "Licht of donker",
+  "skipWizard": "Alles zelf invullen",
+  "back": "Terug",
+  "next": "Verder",
+  "finish": "Bekijk mijn woonlasten",
+  "stepNames": {
+   "start": "Situatie",
+   "bedrag": "Bedrag",
+   "huidig": "Nu",
+   "periode": "Periodes",
+   "rente": "Rente",
+   "vorm": "Vorm",
+   "io": "Aflossingsvrij",
+   "inkomen": "Inkomen",
+   "lasten": "Woonlasten"
+  },
+  "startTitle": "Waar begin je?",
+  "startIntro": "Twee situaties, twee verschillende vragenreeksen. We vragen alleen wat we nodig hebben.",
+  "buyEyebrow": "Nog geen hypotheek",
+  "buyTitle": "Ik heb een huis op het oog",
+  "buyDesc": "Je wilt weten wat de maandlasten worden bij die vraagprijs en je eigen inleg.",
+  "renewEyebrow": "Lopende hypotheek",
+  "renewTitle": "Mijn rentevaste periode loopt af",
+  "renewDesc": "Je wilt zien wat een nieuwe rente doet met je maandlast, en of een andere hypotheekvorm beter uitpakt.",
+  "amountTitle": "De koopsom en je eigen geld",
+  "amountIntro": "Wat je zelf inbrengt gaat er direct af. Dat verlaagt je lening én vaak je rente.",
+  "price": "Koopsom",
+  "ownMoney": "Eigen geld",
+  "youBorrow": "Je leent",
+  "rateClass": "Tariefklasse",
+  "currentTitle": "Je hypotheek van nu",
+  "currentIntro": "Deze vier staan op je jaaroverzicht of in de brief van je geldverstrekker.",
+  "currentBalance": "Restschuld op dit moment",
+  "currentRate": "Huidige rente",
+  "remaining": "Nog te gaan",
+  "years": "jaar",
+  "yrShort": "jr",
+  "currentForm": "Huidige hypotheekvorm",
+  "payNow": "Je betaalt nu ongeveer",
+  "pre2013": "Deze hypotheek loopt al sinds vóór 2013",
+  "pre2013Desc": "Dan mag je de rente ook op een aflossingsvrij deel blijven aftrekken, zolang je binnen de dertig jaar blijft.",
+  "periodTitle": "Twee periodes, niet één",
+  "periodIntro": "De looptijd is hoe lang je over aflossen doet. De rentevaste periode is hoe lang je rente gelijk blijft. Die twee staan los van elkaar.",
+  "term": "Looptijd",
+  "fixedPeriod": "Rentevaste periode",
+  "rateTitle": "De rente",
+  "rate": "Rente",
+  "monthlyThen": "Maandlast straks",
+  "rateUpsell": "Premium haalt de echte tarieven van veertien geldverstrekkers op voor jouw bedrag en tariefklasse.",
+  "ioTitle": "Een deel niet aflossen?",
+  "ioPart": "Aflossingsvrij deel",
+  "ioSavingLabel": "Scheelt per maand",
+  "ioLeftLabel": "Blijft aan het eind staan",
+  "ioRateLabel": "Rente op dit deel",
+  "ioNone": "Je lost alles af binnen de looptijd. Aan het eind is de lening weg en heb je geen restschuld.",
+  "incomeTitle": "Inkomen en woningwaarde",
+  "incomeIntro": "Alleen nodig voor je nettolast. Laat je dit leeg, dan tonen we gewoon bruto.",
+  "incomeMain": "Bruto jaarinkomen — hoofdinkomen",
+  "incomePartner": "Bruto jaarinkomen — partner",
+  "woz": "WOZ-waarde",
+  "costsTitle": "Wat komt erbij",
+  "costsIntro": "Vaste woonlasten naast de hypotheek. Tik aan wat van toepassing is.",
+  "costsTotal": "Samen per maand",
+  "nowThenTitle": "Nu en straks",
+  "nowThenIntro": "Je huidige rentevaste periode tegenover de nieuwe.",
+  "now": "Nu",
+  "then": "Straks",
+  "difference": "Verschil",
+  "perMonthGross": "per maand, bruto",
+  "splitTitle": "Waar je geld heen gaat",
+  "splitIntro": "Gemiddeld per maand in het eerste jaar.",
+  "rowInterest": "Rente",
+  "rowPrincipal": "Aflossing",
+  "rowCosts": "Overige woonlasten",
+  "rowTaxBenefit": "Belastingvoordeel",
+  "balanceTitle": "Je restschuld",
+  "balanceIntro": "Wat er nog openstaat aan het eind van elk jaar.",
+  "chartNow": "nu",
+  "legendFixed": "rente staat vast",
+  "legendAfter": "na de rentevaste periode",
+  "yearTableTitle": "Jaaroverzicht",
+  "colYear": "Jr",
+  "colInterest": "Rente",
+  "colPrincipal": "Aflossing",
+  "colBalance": "Restschuld",
+  "colMonthly": "Bruto p/m",
+  "taxTitle": "Belasting",
+  "taxSideIntro": "Laat je het inkomen leeg, dan vervalt dit deel en werkt de rest gewoon.",
+  "taxRowInterest": "Aftrekbare rente, eerste jaar",
+  "taxRowEwf": "Eigenwoningforfait, 0,35% van de WOZ",
+  "taxRowBracket": "Tarief van jouw schijf",
+  "taxRowCap": "Aftrek maximaal tegen",
+  "taxRowIo": "Aflossingsvrij deel",
+  "taxIoYes": "rente aftrekbaar",
+  "taxIoNo": "geen renteaftrek",
+  "taxRowGross": "Bruto maandlast hypotheek",
+  "taxRowOther": "Overige woonlasten",
+  "taxBenefitMonth": "Voordeel per maand",
+  "grossPerMonth": "Bruto per maand",
+  "netPerMonth": "Netto per maand",
+  "heroNet": "Netto woonlasten per maand",
+  "heroGross": "Bruto woonlasten per maand",
+  "lendersTitle": "Tarieven van geldverstrekkers",
+  "scenariosTitle": "Als het anders loopt",
+  "scenariosIntro": "Je maandlast na afloop van deze rentevaste periode, en wat extra aflossen doet.",
+  "reportBtn": "Rapport voor je adviseur",
+  "lockedTitle": "Wat premium erbij doet",
+  "lockedIntro": "De gratis versie is compleet, maar rekent met gemiddelden en één scenario.",
+  "unlockBtn": "Premium ontgrendelen — € 7,50",
+  "loanAmount": "Hypotheekbedrag",
+  "repaymentType": "Aflossingsvorm",
+  "moreSettings": "Meer instellen",
+  "partsTitle": "Leningdelen",
+  "part": "Deel",
+  "principal": "Hoofdsom",
+  "ratePct": "Rente %",
+  "termShort": "Looptijd jr",
+  "elapsedShort": "Verstreken mnd",
+  "deductible": "Rente fiscaal aftrekbaar",
+  "firstMonth": "Eerste maand",
+  "addPart": "+ Leningdeel",
+  "monthlyCosts": "Maandkosten",
+  "monthlyCostsIntro": "Terugkerende posten die als aparte woonlast meetellen.",
+  "addCost": "+ Post",
+  "combined": "Samen",
+  "marginalRate": "Marginaal tarief",
+  "capRate": "Aftrek maximaal tegen",
+  "restart": "Opnieuw met de wizard",
+  "payTitle": "Van één maandbedrag naar het hele plaatje",
+  "payIntro": "Eenmalig betalen, dertig dagen toegang tot je berekening. Geen abonnement.",
+  "payBtn": "Ontgrendelen — € 7,50 eenmalig",
+  "payDecline": "Verder met de gratis versie",
+  "payDemo": "Demo — er wordt niets afgeschreven.",
+  "forms": [
+   {
+    "name": "Annuïtair",
+    "short": "Annuïtair",
+    "desc": "Elke maand hetzelfde bedrag. Eerst veel rente, later veel aflossing."
+   },
+   {
+    "name": "Lineair",
+    "short": "Lineair",
+    "desc": "Begint hoger en daalt elke maand. In totaal betaal je minder rente."
+   },
+   {
+    "name": "Aflossingsvrij",
+    "short": "Afl.vrij",
+    "desc": "Je betaalt alleen rente. De hele hoofdsom blijft aan het eind staan."
+   }
+  ],
+  "ioFlag": "Volledig aflossingsvrij mag alleen tot de helft van de woningwaarde, en levert geen renteaftrek op.",
+  "costNames": [
+   [
+    "VvE-bijdrage",
+    145
+   ],
+   [
+    "Opstalverzekering",
+    28
+   ],
+   [
+    "Gemeentelijke lasten",
+    45
+   ],
+   [
+    "Waterschap",
+    22
+   ],
+   [
+    "Onderhoudspot",
+    100
+   ]
+  ],
+  "lenderNotes": [
+   "tot 67% marktwaarde",
+   "tot 90% marktwaarde",
+   "geen bereidstellingsprovisie",
+   "met duurzaamheidskorting",
+   "boetevrij 20% aflossen"
+  ],
+  "locked": [
+   [
+    "Actuele tarieven per geldverstrekker",
+    "Veertien aanbieders, gefilterd op jouw bedrag en tariefklasse, met het maandverschil erbij."
+   ],
+   [
+    "Alle jaren plus maanddetail",
+    "Het volledige aflossingsschema, uitklapbaar per maand, te exporteren als CSV."
+   ],
+   [
+    "Scenario’s naast elkaar",
+    "Rente die verandert na je vaste periode, extra aflossen, een andere verdeling over leningdelen."
+   ],
+   [
+    "Rapport voor je adviseur",
+    "Alles in één pdf, inclusief uitgangspunten en fiscale onderbouwing."
+   ]
+  ],
+  "payFeatures": [
+   [
+    "Tarieven van veertien geldverstrekkers",
+    "Dagelijks opgehaald en gefilterd op jouw bedrag en marktwaarde."
+   ],
+   [
+    "Alle jaren, tot op de maand",
+    "Volledig aflossingsschema met CSV-export."
+   ],
+   [
+    "Scenario’s",
+    "Wat gebeurt er als de rente stijgt, of als je extra aflost."
+   ],
+   [
+    "Onbeperkt leningdelen",
+    "Combineer annuïtair, lineair en aflossingsvrij precies zoals jij wilt."
+   ],
+   [
+    "Pdf-rapport",
+    "Neem je berekening mee naar de adviseur of de bank."
+   ]
+  ]
+ },
+ "en": {
+  "tagline": "Housing costs",
+  "navOverview": "Overview",
+  "navAdvanced": "Advanced",
+  "themeTitle": "Light or dark",
+  "skipWizard": "Let me fill it in myself",
+  "back": "Back",
+  "next": "Continue",
+  "finish": "Show my housing costs",
+  "stepNames": {
+   "start": "Situation",
+   "bedrag": "Amount",
+   "huidig": "Today",
+   "periode": "Periods",
+   "rente": "Rate",
+   "vorm": "Type",
+   "io": "Interest-only",
+   "inkomen": "Income",
+   "lasten": "Costs"
+  },
+  "startTitle": "Where do you start?",
+  "startIntro": "Two situations, two different sets of questions. We only ask what we need.",
+  "buyEyebrow": "No mortgage yet",
+  "buyTitle": "I have a house in mind",
+  "buyDesc": "You want to know the monthly cost at that asking price with your own savings put in.",
+  "renewEyebrow": "Existing mortgage",
+  "renewTitle": "My fixed-rate period is ending",
+  "renewDesc": "You want to see what a new rate does to your monthly cost, and whether a different repayment type works out better.",
+  "amountTitle": "Purchase price and your own money",
+  "amountIntro": "What you put in comes straight off. That lowers your loan and often your rate.",
+  "price": "Purchase price",
+  "ownMoney": "Own money",
+  "youBorrow": "You borrow",
+  "rateClass": "Rate class",
+  "currentTitle": "Your mortgage today",
+  "currentIntro": "These four are on your annual statement or in the letter from your lender.",
+  "currentBalance": "Outstanding balance today",
+  "currentRate": "Current rate",
+  "remaining": "Left to run",
+  "years": "years",
+  "yrShort": "yr",
+  "currentForm": "Current repayment type",
+  "payNow": "You pay roughly",
+  "pre2013": "This mortgage started before 2013",
+  "pre2013Desc": "Then you may keep deducting interest on an interest-only part, as long as you stay within the thirty years.",
+  "periodTitle": "Two periods, not one",
+  "periodIntro": "The term is how long you take to repay. The fixed-rate period is how long your rate stays the same. They are separate things.",
+  "term": "Term",
+  "fixedPeriod": "Fixed-rate period",
+  "rateTitle": "The interest rate",
+  "rate": "Rate",
+  "monthlyThen": "Monthly cost",
+  "rateUpsell": "Premium pulls the real rates from fourteen lenders for your amount and rate class.",
+  "ioTitle": "Leave part unrepaid?",
+  "ioPart": "Interest-only part",
+  "ioSavingLabel": "Saves per month",
+  "ioLeftLabel": "Still owed at the end",
+  "ioRateLabel": "Rate on this part",
+  "ioNone": "You repay everything within the term. At the end the loan is gone and nothing is left owing.",
+  "incomeTitle": "Income and property value",
+  "incomeIntro": "Only needed for your net cost. Leave it empty and we simply show gross.",
+  "incomeMain": "Gross annual income — main",
+  "incomePartner": "Gross annual income — partner",
+  "woz": "WOZ value",
+  "costsTitle": "What else comes on top",
+  "costsIntro": "Fixed housing costs alongside the mortgage. Tap whatever applies.",
+  "costsTotal": "Together per month",
+  "nowThenTitle": "Now and next",
+  "nowThenIntro": "Your current fixed-rate period against the new one.",
+  "now": "Now",
+  "then": "Next",
+  "difference": "Difference",
+  "perMonthGross": "per month, gross",
+  "splitTitle": "Where your money goes",
+  "splitIntro": "Monthly average across the first year.",
+  "rowInterest": "Interest",
+  "rowPrincipal": "Repayment",
+  "rowCosts": "Other housing costs",
+  "rowTaxBenefit": "Tax relief",
+  "balanceTitle": "Your outstanding balance",
+  "balanceIntro": "What is still owed at the end of each year.",
+  "chartNow": "now",
+  "legendFixed": "rate is fixed",
+  "legendAfter": "after the fixed period",
+  "yearTableTitle": "Year by year",
+  "colYear": "Yr",
+  "colInterest": "Interest",
+  "colPrincipal": "Repayment",
+  "colBalance": "Balance",
+  "colMonthly": "Gross p/m",
+  "taxTitle": "Tax",
+  "taxSideIntro": "Leave the income empty and this part drops out; the rest keeps working.",
+  "taxRowInterest": "Deductible interest, first year",
+  "taxRowEwf": "Imputed rental value, 0.35% of WOZ",
+  "taxRowBracket": "Your bracket rate",
+  "taxRowCap": "Relief capped at",
+  "taxRowIo": "Interest-only part",
+  "taxIoYes": "interest deductible",
+  "taxIoNo": "no interest relief",
+  "taxRowGross": "Gross monthly mortgage cost",
+  "taxRowOther": "Other housing costs",
+  "taxBenefitMonth": "Relief per month",
+  "grossPerMonth": "Gross per month",
+  "netPerMonth": "Net per month",
+  "heroNet": "Net housing costs per month",
+  "heroGross": "Gross housing costs per month",
+  "lendersTitle": "Lender rates",
+  "scenariosTitle": "If things go differently",
+  "scenariosIntro": "Your monthly cost once this fixed period ends, and what repaying extra does.",
+  "reportBtn": "Report for your adviser",
+  "lockedTitle": "What premium adds",
+  "lockedIntro": "The free version is complete, but works with averages and a single scenario.",
+  "unlockBtn": "Unlock premium — € 7,50",
+  "loanAmount": "Loan amount",
+  "repaymentType": "Repayment type",
+  "moreSettings": "More settings",
+  "partsTitle": "Loan parts",
+  "part": "Part",
+  "principal": "Principal",
+  "ratePct": "Rate %",
+  "termShort": "Term yrs",
+  "elapsedShort": "Months elapsed",
+  "deductible": "Interest is tax deductible",
+  "firstMonth": "First month",
+  "addPart": "+ Loan part",
+  "monthlyCosts": "Monthly costs",
+  "monthlyCostsIntro": "Recurring items counted as separate housing costs.",
+  "addCost": "+ Item",
+  "combined": "Combined",
+  "marginalRate": "Marginal rate",
+  "capRate": "Relief capped at",
+  "restart": "Start the wizard again",
+  "payTitle": "From one monthly figure to the whole picture",
+  "payIntro": "Pay once, thirty days of access to your calculation. No subscription.",
+  "payBtn": "Unlock — € 7,50 one-off",
+  "payDecline": "Continue with the free version",
+  "payDemo": "Demo — nothing is charged.",
+  "forms": [
+   {
+    "name": "Annuity",
+    "short": "Annuity",
+    "desc": "The same amount every month. Mostly interest at first, mostly repayment later."
+   },
+   {
+    "name": "Linear",
+    "short": "Linear",
+    "desc": "Starts higher and falls every month. You pay less interest in total."
+   },
+   {
+    "name": "Interest-only",
+    "short": "Int.-only",
+    "desc": "You pay interest only. The whole principal is still owed at the end."
+   }
+  ],
+  "ioFlag": "A fully interest-only mortgage is capped at half the property value and gives no interest relief.",
+  "costNames": [
+   [
+    "Service charge",
+    145
+   ],
+   [
+    "Building insurance",
+    28
+   ],
+   [
+    "Municipal taxes",
+    45
+   ],
+   [
+    "Water board levy",
+    22
+   ],
+   [
+    "Maintenance fund",
+    100
+   ]
+  ],
+  "lenderNotes": [
+   "up to 67% of market value",
+   "up to 90% of market value",
+   "no standby commission",
+   "with sustainability discount",
+   "20% penalty-free repayment"
+  ],
+  "locked": [
+   [
+    "Live rates per lender",
+    "Fourteen providers, filtered on your amount and rate class, with the monthly difference alongside."
+   ],
+   [
+    "Every year plus monthly detail",
+    "The full amortisation schedule, expandable per month, exportable as CSV."
+   ],
+   [
+    "Scenarios side by side",
+    "A rate that changes after your fixed period, repaying extra, a different split across loan parts."
+   ],
+   [
+    "Report for your adviser",
+    "Everything in one pdf, including assumptions and the tax reasoning."
+   ]
+  ],
+  "payFeatures": [
+   [
+    "Rates from fourteen lenders",
+    "Pulled daily and filtered on your amount and market value."
+   ],
+   [
+    "Every year, down to the month",
+    "Full amortisation schedule with CSV export."
+   ],
+   [
+    "Scenarios",
+    "What happens if rates rise, or if you repay extra."
+   ],
+   [
+    "Unlimited loan parts",
+    "Combine annuity, linear and interest-only exactly as you like."
+   ],
+   [
+    "Pdf report",
+    "Take your calculation to your adviser or the bank."
+   ]
+  ]
+ }
+}

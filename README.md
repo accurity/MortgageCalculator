@@ -3,6 +3,10 @@
 Webapplicatie in PHP (8.1+) om een hypotheek met **meerdere leningdelen** door te rekenen.
 Geen frameworks, geen Composer-dependencies.
 
+Het scherm is de pixel-voor-pixel nagebouwde versie van het Claude Design-ontwerp
+(`Hypotheekcalculator.dc.html`): een wizard van acht stappen met twee paden (kopen of
+oversluiten), een resultaatscherm met sliders, en NL/EN plus licht/donker.
+
 ## Wat het doet
 
 * Onbeperkt aantal leningdelen, elk met een eigen:
@@ -19,6 +23,11 @@ Geen frameworks, geen Composer-dependencies.
   Wet Hillen en de tariefsaanpassing. Vul je geen jaarinkomen in, dan blijft dat deel eenvoudig
   weg en werkt de rest van de berekening gewoon.
 * Maandoverzicht per jaar (optioneel) en export van het jaaroverzicht naar CSV.
+* **Twee paden**: een nieuwe hypotheek bij een koopsom, of een lopende hypotheek waarvan de
+  rentevaste periode afloopt (met een vergelijking nu/straks).
+* **Nederlands en Engels**, en een licht en donker thema.
+* Een **premium-demo**: paywall, tarievenlijst per geldverstrekker en scenario's. Er wordt
+  niets afgeschreven; de tarieven zijn voorbeelddata uit `data/lenders.php`.
 
 ## Starten
 
@@ -74,34 +83,65 @@ docker compose up -d --build
 
 Daarna: <http://localhost:8080>. Het image is `php:8.4-apache` met de docroot op `public/`.
 
-De applicatie houdt geen state bij: geen database, geen sessies, geen cookies.
-Alle invoer gaat via één POST naar dezelfde pagina.
+De applicatie houdt geen state bij: geen database, geen sessies, geen cookies. Alle invoer
+staat in één formulier dat naar dezelfde pagina post.
+
+### Zonder JavaScript
+
+Elke knop is een submit en elk veld gewone invoer, dus de hele wizard werkt zonder
+JavaScript — alleen zonder live bijwerken. Met JavaScript onderschept `public/assets/js/app.js`
+diezelfde elementen en rekent `calc.js` mee in de browser, zodat sliders direct doorwerken.
 
 ## Tests
 
 ```bash
-php tests/run.php
+php tests/run.php        # rekenkern
+php tests/parity.php     # PHP-kant tegen JS-kant (heeft node nodig)
 ```
 
-Dekt de aflossingsschema's (annuïtair/lineair/aflossingsvrij, ook bij 0% rente en bij een
-reeds lopende hypotheek), de 30-jaarsgrens van de renteaftrek, de jaaraggregatie, de fiscale
-berekening en het parsen van Nederlandse getalnotatie.
+`run.php` dekt de aflossingsschema's (annuïtair/lineair/aflossingsvrij, ook bij 0% rente en bij
+een reeds lopende hypotheek), de 30-jaarsgrens van de renteaftrek, de jaaraggregatie, de
+fiscale berekening en het parsen van Nederlandse getalnotatie.
+
+`parity.php` rekent 22 situaties door in PHP én in `public/assets/js/calc.js` en vergelijkt
+zowel de bedragen als het complete viewmodel — elke tekst, elke kleur, elke lijstlengte. Die
+twee moeten identiek zijn, anders is een van beide kanten gaan schuiven.
+
+### Vergelijken met het ontwerp
+
+```bash
+tests/vergelijk-ontwerp.sh pad/naar/Hypotheekcalculator.dc.html
+```
+
+Stuurt het ontwerp én de draaiende site door dezelfde klikken (zelfde knoppen, zelfde
+volgorde, animaties uitgezet) en telt de afwijkende pixels per scherm met `tests/pixeldiff.py`.
+Zeventien schermen, van wizardstap tot paywall, in licht en donker: alle nul.
 
 ## Structuur
 
 ```
-public/index.php        controller: invoer verwerken, CSV-export, view laden
-public/assets/          stylesheet en javascript (rijen toevoegen/verwijderen)
+public/index.php        controller: state lezen, knopacties uitvoeren, CSV-export, view laden
+public/assets/css/      design tokens en @font-face uit het ontwerp
+public/assets/fonts/    Schibsted Grotesk en JetBrains Mono (variable, per subset)
+public/assets/js/       calc.js (rekenkern), viewmodel.js (schermwaarden), app.js (bindingen)
 src/LoanPart.php        één leningdeel + validatie + restschuld bij een lopende hypotheek
 src/Amortization.php    aflossingsschema per maand (MonthRow, Schedule)
 src/Mortgage.php        aggregatie per kalenderjaar (YearRow, MortgageResult)
 src/TaxRules.php        fiscale parameters per jaar — HIER BIJWERKEN
 src/TaxCalculator.php   eigenwoningforfait, Hillen, tariefsaanpassing, belastingvoordeel
 src/CalculationRequest.php  formulierinvoer -> domeinobjecten
+src/Design/State.php    de state uit het ontwerp, gelezen uit de request
+src/Design/Calculator.php  afgeleiden en jaaraggregatie op basis van Amortization
+src/Design/ViewModel.php   alle schermwaarden; de PHP-tegenhanger van viewmodel.js
+src/Design/Constants.php   marktrentes en opslagen; fiscale cijfers komen uit TaxRules
+src/Design/translations.json  NL/EN-teksten, letterlijk uit het ontwerp
 src/Input.php           getalnotatie (zowel "1.234,56" als "1234.56")
 src/Formatter.php       opmaak van bedragen en percentages
-templates/              layout, formulier en resultaat
+templates/design/       de nagebouwde schermen; inline styles komen uit het ontwerp
+data/lenders.php        geldverstrekkers voor het tarievenblok (voorbeelddata)
 tests/run.php           testsuite zonder dependencies
+tests/parity.php        PHP tegen JS
+tests/pixeldiff.py      pixelvergelijking zonder Pillow of ImageMagick
 Dockerfile              php:8.4-apache met docroot op public/
 docker-compose.yml      draait de app op poort 8080
 ```
