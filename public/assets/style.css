@@ -1,0 +1,158 @@
+:root {
+    color-scheme: light dark;
+    --achtergrond: #f4f6f8;
+    --kaart: #ffffff;
+    --rand: #d9e0e7;
+    --tekst: #16212b;
+    --tekst-zacht: #5a6b7a;
+    --accent: #0b5fa5;
+    --accent-zacht: #e6f0fa;
+    --waarschuwing: #a1490b;
+    --waarschuwing-zacht: #fdf0e3;
+    --fout: #a31515;
+    --fout-zacht: #fbeaea;
+    --radius: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --achtergrond: #131a21;
+        --kaart: #1b242d;
+        --rand: #2e3b47;
+        --tekst: #e8eef3;
+        --tekst-zacht: #9fb0bf;
+        --accent: #6cb2f0;
+        --accent-zacht: #1d303f;
+        --waarschuwing: #f0b072;
+        --waarschuwing-zacht: #37291a;
+        --fout: #f08a8a;
+        --fout-zacht: #3a1f1f;
+    }
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 0 1rem 4rem;
+    background: var(--achtergrond);
+    color: var(--tekst);
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+main, .site-header, .site-footer { max-width: 1180px; margin: 0 auto; }
+
+.site-header { padding: 2rem 0 1rem; }
+.site-header h1 { margin: 0 0 .25rem; font-size: 1.7rem; letter-spacing: -.02em; }
+.site-header p { margin: 0; color: var(--tekst-zacht); max-width: 70ch; }
+
+.site-footer { padding: 2rem 0 0; color: var(--tekst-zacht); font-size: .85rem; }
+.site-footer code { background: var(--kaart); padding: .1rem .3rem; border-radius: 4px; }
+
+.kaart {
+    background: var(--kaart);
+    border: 1px solid var(--rand);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+.kaart h2 { margin: 0 0 1rem; font-size: 1.15rem; }
+.optioneel {
+    font-size: .7rem; font-weight: 500; text-transform: uppercase;
+    letter-spacing: .06em; color: var(--tekst-zacht);
+    border: 1px solid var(--rand); border-radius: 99px; padding: .1rem .5rem;
+    vertical-align: middle;
+}
+.uitleg { color: var(--tekst-zacht); font-size: .9rem; margin: -.5rem 0 1rem; max-width: 80ch; }
+
+/* Formulier */
+.leningdeel {
+    position: relative;
+    border: 1px solid var(--rand);
+    border-radius: var(--radius);
+    padding: 1rem 1rem .5rem;
+    margin: 0 0 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: .75rem 1rem;
+}
+.leningdeel legend { font-weight: 600; padding: 0 .4rem; }
+.veld-breed { grid-column: 1 / -1; }
+
+.veld { display: flex; flex-direction: column; gap: .3rem; }
+.veld label { font-size: .85rem; font-weight: 600; }
+.veld small { color: var(--tekst-zacht); font-size: .75rem; }
+.veld-check label { font-weight: 500; display: flex; align-items: center; gap: .45rem; }
+
+input[type="text"], select {
+    font: inherit;
+    padding: .5rem .6rem;
+    border: 1px solid var(--rand);
+    border-radius: 7px;
+    background: var(--achtergrond);
+    color: var(--tekst);
+    width: 100%;
+}
+input[type="text"]:focus, select:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.raster { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+
+.kostenrij { display: grid; grid-template-columns: 2fr 1fr auto; gap: .5rem; margin-bottom: .5rem; }
+
+.verwijder {
+    background: none; border: 1px solid var(--rand); color: var(--tekst-zacht);
+    border-radius: 7px; cursor: pointer; font-size: 1.1rem; line-height: 1;
+    padding: .35rem .55rem;
+}
+.leningdeel .verwijder { position: absolute; top: .6rem; right: .6rem; }
+.verwijder:hover { color: var(--fout); border-color: var(--fout); }
+
+.knop {
+    font: inherit; font-weight: 600; cursor: pointer;
+    padding: .6rem 1.1rem; border-radius: 8px; border: 1px solid var(--rand);
+    background: var(--kaart); color: var(--tekst);
+}
+.knop-primair { background: var(--accent); border-color: var(--accent); color: #fff; }
+.knop-secundair:hover { border-color: var(--accent); color: var(--accent); }
+.kaart-acties { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; }
+.knoppen { display: flex; gap: .6rem; flex-wrap: wrap; }
+
+/* Meldingen */
+.melding { border-radius: var(--radius); padding: .8rem 1rem; margin: 0 0 1.25rem; font-size: .92rem; }
+.melding ul { margin: .4rem 0 0; padding-left: 1.2rem; }
+.melding-fout { background: var(--fout-zacht); color: var(--fout); border: 1px solid var(--fout); }
+.melding-info { background: var(--accent-zacht); color: var(--accent); border: 1px solid var(--accent); }
+.melding-let-op { background: var(--waarschuwing-zacht); color: var(--waarschuwing); border: 1px solid var(--waarschuwing); }
+
+/* Resultaat */
+.tegels { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .8rem; }
+.tegel {
+    border: 1px solid var(--rand); border-radius: var(--radius);
+    padding: .8rem .9rem; display: flex; flex-direction: column; gap: .2rem;
+}
+.tegel-label { font-size: .78rem; color: var(--tekst-zacht); text-transform: uppercase; letter-spacing: .04em; }
+.tegel-waarde { font-size: 1.35rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.tegel-sub { font-size: .78rem; color: var(--tekst-zacht); }
+.tegel-accent { background: var(--accent-zacht); border-color: var(--accent); }
+.tegel-waarschuwing { background: var(--waarschuwing-zacht); border-color: var(--waarschuwing); }
+
+/* Tabellen */
+.tabel-scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: .88rem; }
+th, td { padding: .45rem .6rem; border-bottom: 1px solid var(--rand); text-align: left; white-space: nowrap; }
+thead th { position: sticky; top: 0; background: var(--kaart); font-size: .78rem; text-transform: uppercase; letter-spacing: .03em; color: var(--tekst-zacht); }
+tbody tr:hover { background: var(--accent-zacht); }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+.sterk { font-weight: 700; }
+.let-op { color: var(--waarschuwing); font-weight: 600; }
+tfoot th { border-top: 2px solid var(--rand); background: var(--kaart); }
+.rij-slotsom td { background: var(--waarschuwing-zacht); color: var(--waarschuwing); white-space: normal; font-size: .85rem; }
+table.compact th, table.compact td { padding: .3rem .5rem; }
+
+details { border: 1px solid var(--rand); border-radius: var(--radius); margin-bottom: .5rem; }
+details summary { cursor: pointer; padding: .6rem .9rem; font-weight: 600; }
+details[open] summary { border-bottom: 1px solid var(--rand); }
+details > .tabel-scroll { padding: .5rem .9rem .9rem; }
