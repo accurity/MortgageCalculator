@@ -1,0 +1,95 @@
+<!doctype html><meta charset="utf-8">
+<style>html,body{margin:0;overflow:hidden}iframe{border:0;display:block;width:1280px;height:900px}</style>
+<iframe id="fr"></iframe>
+<script>
+// #<doel>|<actie>,<actie>...   actie = tekst van een knop, of veld=waarde
+var hash = decodeURIComponent(location.hash.slice(1));
+var stukken = hash.split('|');
+var doel = stukken[0];
+var acties = (stukken[1] || '').split(';').filter(Boolean);
+var fr = document.getElementById('fr');
+fr.src = doel;
+
+function doc() { return fr.contentDocument; }
+
+function klikTekst(tekst) {
+  var knoppen = [].slice.call(doc().querySelectorAll('button'));
+  var gevonden = knoppen.filter(function (b) { return b.textContent.trim() === tekst; });
+  if (!gevonden.length) { console.log('NIET GEVONDEN: ' + tekst); return false; }
+  gevonden[0].click();
+  return true;
+}
+
+function zetVeld(naam, waarde) {
+  var d = doc();
+  var el = d.querySelector('input[name="' + naam + '"]');
+  if (!el) {
+    // het ontwerp heeft geen name-attributen: kies de n-de range/tekstinvoer
+    var idx = parseInt(naam.replace(/\D/g, ''), 10) || 1;
+    var soort = naam.indexOf('range') === 0 ? 'input[type=range]' : 'input[type=text]';
+    el = d.querySelectorAll(soort)[idx - 1];
+  }
+  if (!el) { console.log('VELD NIET GEVONDEN: ' + naam); return; }
+  var zetter = Object.getOwnPropertyDescriptor(el.constructor.prototype, 'value').set;
+  zetter.call(el, waarde);
+  el.dispatchEvent(new Event('input', { bubbles: true }));
+  el.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
+var i = 0, bezig = false;
+
+function doe(actie) {
+  if (actie === 'wacht') return;          // laat animaties uitlopen
+  if (actie.charAt(0) === '@') {          // klik op een selector
+    var el = doc().querySelector(actie.slice(1));
+    if (el) el.click(); else console.log('SELECTOR NIET GEVONDEN: ' + actie);
+    return;
+  }
+  if (actie.indexOf('=') > 0) { var d = actie.split('='); zetVeld(d[0], d.slice(1).join('=')); }
+  else { klikTekst(actie); }
+}
+
+/**
+ * Animaties en overgangen uitzetten. CSS-animaties lopen op de echte klok,
+ * niet op de virtuele klok van de screenshot; zonder dit legt de ene kant een
+ * half vervaagde stap vast en de andere niet.
+ */
+function bevries() {
+  try {
+    var d = doc();
+    if (!d || d.getElementById('bevries')) return;
+    var st = d.createElement('style');
+    st.id = 'bevries';
+    st.textContent = '*,*::before,*::after{animation:none!important;transition:none!important}';
+    (d.head || d.documentElement).appendChild(st);
+  } catch (e) {}
+}
+
+function volgende() {
+  if (bezig) return;
+  if (i >= acties.length) {
+    bevries();
+    // Tekstafdruk voor --dump-dom; onzichtbaar, dus screenshots blijven gelijk.
+    try {
+      var afdruk = document.createElement('div');
+      afdruk.id = 'afdruk';
+      afdruk.style.display = 'none';
+      var formulier = doc().getElementById('app');
+      var velden = formulier ? new URLSearchParams(new FormData(formulier)).toString() : '(geen formulier)';
+      var st = doc().getElementById('design-data');
+      afdruk.textContent = doc().body.innerText.replace(/\n{2,}/g, '\n')
+        + '\n=== FORM ===\n' + velden
+        + '\n=== VM ===\n' + (function(){try{var w=fr.contentWindow; return JSON.stringify(w.ViewModel.render(w.__app.state).formOpts);}catch(e){return 'vm-fout: '+e.message;}})() + '\n=== STATE ===\n' + (st ? JSON.parse(st.textContent).state && JSON.stringify(JSON.parse(st.textContent).state) : '(geen)');
+      document.body.appendChild(afdruk);
+    } catch (e) {}
+    document.title = 'klaar';
+    return;
+  }
+  var actie = acties[i++];
+  bezig = true;
+  doe(actie);
+  setTimeout(function () { if (bezig) { bezig = false; volgende(); } }, 300);
+}
+
+fr.onload = function () { bezig = false; setTimeout(function () { bevries(); volgende(); }, 60); };
+</script>

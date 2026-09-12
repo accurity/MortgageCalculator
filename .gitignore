@@ -4,3 +4,7 @@
 
 # Bronbestanden huisstijl (logo/psd/fonts) - niet publiceren vanuit de webroot
 /AssetsAccurity/
+
+# Python-cache van de testscripts
+tests/__pycache__/
+__pycache__/
