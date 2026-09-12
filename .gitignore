@@ -1,6 +1,7 @@
 .idea/
 .vscode/
 *.log
+.DS_Store
 
 # Bronbestanden huisstijl (logo/psd/fonts) - niet publiceren vanuit de webroot
 /AssetsAccurity/
@@ -8,3 +9,17 @@
 # Python-cache van de testscripts
 tests/__pycache__/
 __pycache__/
+
+# Laravel
+.env
+.env.backup
+.env.production
+.phpunit.result.cache
+/.phpunit.cache
+/database/database.sqlite
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/vendor
+_ide_helper.php

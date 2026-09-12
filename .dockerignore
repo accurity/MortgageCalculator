@@ -10,3 +10,8 @@ AssetsAccurity
 tests
 README.md
 docker-compose.yml
+
+.env
+vendor
+node_modules
+database/database.sqlite
