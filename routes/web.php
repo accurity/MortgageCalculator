@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\RateImportController;
 use App\Http\Controllers\Admin\RateSetController;
 use App\Http\Controllers\Admin\RateSourceController;
 use App\Http\Controllers\Admin\RiskClassController;
+use App\Http\Controllers\Admin\ScrapeStatusController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\TaxYearController;
 use App\Http\Controllers\CalculatorController;
@@ -57,6 +58,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('admin/settings', [SettingsController::class, 'edit'])->name('admin.settings.edit');
     Route::put('admin/settings', [SettingsController::class, 'update'])->name('admin.settings.update');
+
+    Route::get('admin/rates/status', [ScrapeStatusController::class, 'index'])->name('admin.rates.status');
 });
 
 require __DIR__.'/auth.php';
