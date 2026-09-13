@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services\Mortgage;
 
+use App\Models\RiskClass;
 use App\Services\Mortgage\Domain\Amortization;
 use App\Services\Mortgage\Domain\LoanPart;
+use App\Services\Mortgage\Domain\RateRepository;
 use App\Services\Mortgage\Domain\Schedule;
 
 /**
@@ -50,7 +52,11 @@ final class Calculator
         return (int)min(125, round($this->totalLoan() / $prijs * 100));
     }
 
-    /** Rentekorting die bij de tariefklasse hoort, in procentpunten. */
+    /**
+     * Rentekorting die bij de LTV hoort, in procentpunten: alleen nog gebruikt
+     * voor de informatieve "korting"-notitie op de bedrag-stap van de wizard.
+     * De echte rente voor de berekening komt uit riskClass()/marketRate().
+     */
     public function ltvAdj(): float
     {
         $l = $this->ltv();
@@ -58,11 +64,24 @@ final class Calculator
         return $l <= 60 ? -0.25 : ($l <= 80 ? -0.12 : ($l <= 90 ? -0.04 : 0.0));
     }
 
+    /**
+     * De tariefklasse (NHG of een LTV-staffel) waarmee de marktrente wordt
+     * opgezocht. Bij oversluiten is de LTV van de nieuwe situatie nog niet
+     * relevant voor de tariefonderhandeling, dus geldt het plafond zonder
+     * korting - net als voorheen bij ltvAdj().
+     */
+    public function riskClass(): RiskClass
+    {
+        if ($this->state->isRenew()) {
+            return RateRepository::hoogsteKlasse();
+        }
+
+        return RateRepository::klasseVoor($this->ltv(), $this->totalLoan());
+    }
+
     public function marketRate(): float
     {
-        $basis = Constants::MARKET[$this->state->fixedY] ?? 4.0;
-
-        return round(($basis + ($this->state->isRenew() ? 0.0 : $this->ltvAdj())) * 100) / 100;
+        return RateRepository::rate($this->state->fixedY, $this->riskClass());
     }
 
     public function rate(): float

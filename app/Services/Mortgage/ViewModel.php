@@ -25,6 +25,10 @@ final class ViewModel
         $this->calc = new Calculator($state);
         $this->t = Translations::voor($state->lang);
         $this->en = $state->lang === 'en';
+
+        $aantalVerstrekkers = (string)\App\Models\Lender::query()->where('active', true)->count();
+        $this->t['rateUpsell'] = str_replace('{n}', $aantalVerstrekkers, $this->t['rateUpsell']);
+        $this->t['payFeatures'][0][0] = str_replace('{n}', $aantalVerstrekkers, $this->t['payFeatures'][0][0]);
     }
 
     public function state(): State
@@ -190,8 +194,8 @@ final class ViewModel
                 ];
             }, $prem ? $C['years'] : array_slice($C['years'], 0, 6)),
             'tax' => $taxRows,
-            'fixOpts' => array_map(function (int $v) use ($S, $renew): array {
-                $r = round((Constants::MARKET[$v] + ($renew ? 0.0 : $this->calc->ltvAdj())) * 100) / 100;
+            'fixOpts' => array_map(function (int $v) use ($S): array {
+                $r = \App\Services\Mortgage\Domain\RateRepository::rate($v, $this->calc->riskClass());
 
                 return [
                     'y' => $v, 'rate' => $this->dec($r),

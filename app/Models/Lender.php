@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Een hypotheekverstrekker voor het tarievenblok. Beheerd via /admin/lenders.
@@ -44,5 +45,10 @@ final class Lender extends Model
         }
 
         return $this->logo_url;
+    }
+
+    public function rateSets(): HasMany
+    {
+        return $this->hasMany(RateSet::class);
     }
 }

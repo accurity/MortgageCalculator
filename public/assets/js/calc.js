@@ -25,10 +25,32 @@
 
   var IO_SURCHARGE = C.IO_SURCHARGE;
   var IO_MAX_SHARE = C.IO_MAX_SHARE;
-  var MARKET = C.MARKET;
+  var RATE_TABLE = C.RATE_TABLE;
+  var RISK_CLASSES = C.RISK_CLASSES;
+  var NHG_GRENS = C.NHG_GRENS;
   var BRACKETS = (C.BRACKETS || []).map(function (b) {
     return [b[0] === null ? Infinity : b[0], b[1]];
   });
+
+  /** De klasse zonder LTV-plafond: het plafond voor een lening boven elke staffel. */
+  function hoogsteKlasse() {
+    var kandidaten = RISK_CLASSES.filter(function (k) { return !k.nhg; });
+    return kandidaten[kandidaten.length - 1];
+  }
+
+  /** Zelfde indeling als App\Services\Mortgage\Domain\RateRepository::klasseVoor(). */
+  function klasseVoor(ltvProcent, lening) {
+    if (ltvProcent <= 100 && lening <= NHG_GRENS) {
+      for (var i = 0; i < RISK_CLASSES.length; i++) {
+        if (RISK_CLASSES[i].nhg) return RISK_CLASSES[i];
+      }
+    }
+    for (var j = 0; j < RISK_CLASSES.length; j++) {
+      var k = RISK_CLASSES[j];
+      if (!k.nhg && k.maxLtv !== null && ltvProcent <= k.maxLtv) return k;
+    }
+    return hoogsteKlasse();
+  }
 
   function num(s) {
     var t = String(s == null ? '' : s)
@@ -95,8 +117,13 @@
       var l = derive.ltv(S);
       return l <= 60 ? -0.25 : l <= 80 ? -0.12 : l <= 90 ? -0.04 : 0;
     },
+    riskClass: function (S) {
+      if (S.path === 'renew') return hoogsteKlasse();
+      return klasseVoor(derive.ltv(S), derive.totalLoan(S));
+    },
     marketRate: function (S) {
-      return Math.round((MARKET[S.fixedY] + (S.path === 'renew' ? 0 : derive.ltvAdj(S))) * 100) / 100;
+      var klasse = derive.riskClass(S);
+      return RATE_TABLE[klasse.code][S.fixedY] != null ? RATE_TABLE[klasse.code][S.fixedY] : 4.0;
     },
     rate: function (S) {
       return S.rate != null ? S.rate : derive.marketRate(S);

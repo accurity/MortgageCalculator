@@ -16,5 +16,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(TaxYearSeeder::class);
         $this->call(LenderSeeder::class);
+        $this->call(FixedPeriodSeeder::class);
+        $this->call(RiskClassSeeder::class);
+        $this->call(SettingSeeder::class);
     }
 }

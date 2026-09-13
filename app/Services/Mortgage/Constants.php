@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace App\Services\Mortgage;
 
+use App\Services\Mortgage\Domain\RateRepository;
 use App\Services\Mortgage\Domain\TaxRules;
 
 /**
  * De constanten uit het Claude Design-ontwerp.
  *
- * De marktrentes, de opslag op een aflossingsvrij deel en de premiumprijs komen
- * letterlijk uit het ontwerp. De fiscale getallen komen NIET uit het ontwerp:
- * dat rekent met de schijven van 2025 onder het label 2026. TaxRules is de
- * fiscale autoriteit in dit project, dus die vullen we hier vanuit.
+ * De opslag op een aflossingsvrij deel en de premiumprijs komen letterlijk uit
+ * het ontwerp. De fiscale getallen komen NIET uit het ontwerp: dat rekent met
+ * de schijven van 2025 onder het label 2026. TaxRules is de fiscale autoriteit
+ * in dit project, dus die vullen we hier vanuit. De marktrente komt uit
+ * RateRepository (tabel `rates`, met een terugval uit `settings`), niet meer
+ * uit een vaste MARKET-constante.
  */
 final class Constants
 {
@@ -27,9 +30,6 @@ final class Constants
 
     /** Eenmalige prijs van premium, als weergavestring. */
     public const PRICE = '7,50';
-
-    /** Marktgemiddelde rente per rentevaste periode in jaren. */
-    public const MARKET = [1 => 4.15, 5 => 3.80, 10 => 3.90, 20 => 4.20, 30 => 4.40];
 
     /** Rentevaste periodes die als knop getoond worden. */
     public const FIXED_OPTIONS = [1, 5, 10, 20, 30];
@@ -90,7 +90,9 @@ final class Constants
             'CAP_RATE'     => self::capRate(),
             'HILLEN'       => self::hillen(),
             'BRACKETS'     => self::brackets(),
-            'MARKET'       => self::MARKET,
+            'RATE_TABLE'   => RateRepository::tabelVoorJs(),
+            'RISK_CLASSES' => RateRepository::klassenVoorJs(),
+            'NHG_GRENS'    => RateRepository::nhgGrens(),
             'IO_SURCHARGE' => self::IO_SURCHARGE,
             'IO_MAX_SHARE' => self::IO_MAX_SHARE,
             'PRICE'        => self::PRICE,

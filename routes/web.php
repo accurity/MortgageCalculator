@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\LenderController;
+use App\Http\Controllers\Admin\RateSetController;
 use App\Http\Controllers\Admin\TaxYearController;
 use App\Http\Controllers\CalculatorController;
 use App\Http\Controllers\ProfileController;
@@ -24,6 +25,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('admin/lenders', LenderController::class)
         ->except('show')
         ->names('admin.lenders')
+        ->parameters(['lenders' => 'lender']);
+
+    Route::resource('admin/lenders.rate-sets', RateSetController::class)
+        ->only(['index', 'create', 'store'])
+        ->names('admin.lenders.rate-sets')
         ->parameters(['lenders' => 'lender']);
 });
 

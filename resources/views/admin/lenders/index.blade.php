@@ -47,6 +47,7 @@
                                 <td>{{ number_format($verstrekker->delta, 2, ',', '.') }}</td>
                                 <td>{{ $verstrekker->active ? 'Ja' : 'Nee' }}</td>
                                 <td>
+                                    <a href="{{ route('admin.lenders.rate-sets.index', $verstrekker) }}">Tarieven</a>
                                     <a href="{{ route('admin.lenders.edit', $verstrekker) }}">Bewerken</a>
                                     <form method="post" action="{{ route('admin.lenders.destroy', $verstrekker) }}" style="display:inline" onsubmit="return confirm('Verstrekker {{ $verstrekker->name }} verwijderen?');">
                                         @csrf
