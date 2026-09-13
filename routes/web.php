@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\FixedPeriodController;
 use App\Http\Controllers\Admin\LenderController;
 use App\Http\Controllers\Admin\RateImportController;
 use App\Http\Controllers\Admin\RateSetController;
+use App\Http\Controllers\Admin\RateSourceController;
 use App\Http\Controllers\Admin\RiskClassController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\TaxYearController;
@@ -35,6 +36,10 @@ Route::middleware('auth')->group(function () {
         ->only(['index', 'create', 'store'])
         ->names('admin.lenders.rate-sets')
         ->parameters(['lenders' => 'lender']);
+
+    Route::get('admin/lenders/{lender}/source', [RateSourceController::class, 'edit'])->name('admin.lenders.source.edit');
+    Route::put('admin/lenders/{lender}/source', [RateSourceController::class, 'update'])->name('admin.lenders.source.update');
+    Route::post('admin/lenders/{lender}/source/test', [RateSourceController::class, 'test'])->name('admin.lenders.source.test');
 
     Route::resource('admin/risk-classes', RiskClassController::class)
         ->except('show')
