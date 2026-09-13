@@ -121,7 +121,7 @@ final class CalculatorController extends Controller
 
             case 'fixed':
                 $jaren = (int)$argument;
-                if (in_array($jaren, Constants::FIXED_OPTIONS, true)) {
+                if (in_array($jaren, Constants::fixedOptions(), true)) {
                     $s->fixedY = $jaren;
                     $s->rate = null;
                     $s->parts = null;

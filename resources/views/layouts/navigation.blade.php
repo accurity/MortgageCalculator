@@ -6,6 +6,8 @@
             <a href="{{ route('dashboard') }}" @class(['active' => request()->routeIs('dashboard')])>Dashboard</a>
             <a href="{{ route('admin.tax-years.index') }}" @class(['active' => request()->routeIs('admin.tax-years.*')])>Belastingjaren</a>
             <a href="{{ route('admin.lenders.index') }}" @class(['active' => request()->routeIs('admin.lenders.*')])>Verstrekkers</a>
+            <a href="{{ route('admin.risk-classes.index') }}" @class(['active' => request()->routeIs('admin.risk-classes.*')])>Tariefklassen</a>
+            <a href="{{ route('admin.fixed-periods.index') }}" @class(['active' => request()->routeIs('admin.fixed-periods.*')])>Periodes</a>
             <a href="{{ route('profile.edit') }}" @class(['active' => request()->routeIs('profile.edit')])>Profiel</a>
         </div>
 

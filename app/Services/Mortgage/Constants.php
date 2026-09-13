@@ -31,9 +31,6 @@ final class Constants
     /** Eenmalige prijs van premium, als weergavestring. */
     public const PRICE = '7,50';
 
-    /** Rentevaste periodes die als knop getoond worden. */
-    public const FIXED_OPTIONS = [1, 5, 10, 20, 30];
-
     /** Hypotheekvormen in de volgorde van het ontwerp. */
     public const FORMS = ['ann', 'lin', 'av'];
 
@@ -43,6 +40,12 @@ final class Constants
         'lin' => \App\Services\Mortgage\Domain\LoanPart::TYPE_LINEAIR,
         'av'  => \App\Services\Mortgage\Domain\LoanPart::TYPE_AFLOSSINGSVRIJ,
     ];
+
+    /** Rentevaste periodes die als knop getoond worden: de actieve periodes uit de admin. */
+    public static function fixedOptions(): array
+    {
+        return RateRepository::periodes();
+    }
 
     /** Eigenwoningforfait als fractie van de WOZ-waarde. */
     public static function ewfRate(): float
@@ -90,6 +93,7 @@ final class Constants
             'CAP_RATE'     => self::capRate(),
             'HILLEN'       => self::hillen(),
             'BRACKETS'     => self::brackets(),
+            'FIXED_OPTIONS' => self::fixedOptions(),
             'RATE_TABLE'   => RateRepository::tabelVoorJs(),
             'RISK_CLASSES' => RateRepository::klassenVoorJs(),
             'NHG_GRENS'    => RateRepository::nhgGrens(),

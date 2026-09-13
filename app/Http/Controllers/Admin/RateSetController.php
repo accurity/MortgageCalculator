@@ -30,8 +30,8 @@ final class RateSetController extends Controller
     {
         return view('admin.rate-sets.create', [
             'lender' => $lender,
-            'periodes' => FixedPeriod::query()->orderBy('sort_order')->get(),
-            'klassen' => RiskClass::query()->orderBy('sort_order')->get(),
+            'periodes' => FixedPeriod::query()->where('active', true)->orderBy('sort_order')->get(),
+            'klassen' => RiskClass::query()->where('active', true)->orderBy('sort_order')->get(),
         ]);
     }
 

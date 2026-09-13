@@ -36,8 +36,8 @@ final class RateSetRequest extends FormRequest
     {
         $regels = ['note' => ['nullable', 'string', 'max:500']];
 
-        foreach (FixedPeriod::query()->pluck('id') as $periodeId) {
-            foreach (RiskClass::query()->pluck('id') as $klasseId) {
+        foreach (FixedPeriod::query()->where('active', true)->pluck('id') as $periodeId) {
+            foreach (RiskClass::query()->where('active', true)->pluck('id') as $klasseId) {
                 $regels["rates.$periodeId.$klasseId"] = ['required', 'numeric', 'min:0', 'max:15'];
             }
         }

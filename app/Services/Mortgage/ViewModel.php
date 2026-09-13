@@ -201,7 +201,7 @@ final class ViewModel
                     'y' => $v, 'rate' => $this->dec($r),
                     'b' => self::sel($S->fixedY === $v)['b'], 'bg' => self::sel($S->fixedY === $v)['bg'],
                 ];
-            }, Constants::FIXED_OPTIONS),
+            }, Constants::fixedOptions()),
             'formOpts' => $this->vormOpties($C, $total, $rate, $io, $formNamen),
             'curFormOpts' => array_map(function (array $f, int $i) use ($S): array {
                 $k = Constants::FORMS[$i];

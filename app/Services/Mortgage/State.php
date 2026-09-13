@@ -88,7 +88,7 @@ final class State
 
         $s->termY  = (int)self::getal($in, 'termY', (float)$s->termY, 5, 30);
         $s->fixedY = (int)self::getal($in, 'fixedY', (float)$s->fixedY, 1, 30);
-        if (!in_array($s->fixedY, Constants::FIXED_OPTIONS, true)) {
+        if (!in_array($s->fixedY, Constants::fixedOptions(), true)) {
             $s->fixedY = 10;
         }
 

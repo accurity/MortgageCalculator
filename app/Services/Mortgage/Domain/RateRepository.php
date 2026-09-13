@@ -21,8 +21,11 @@ use Illuminate\Support\Facades\DB;
  */
 final class RateRepository
 {
-    /** @var array<string, RiskClass>|null code => klasse */
+    /** @var array<string, RiskClass>|null code => klasse, alleen actieve */
     private static ?array $klassen = null;
+
+    /** @var list<int>|null actieve periodes, op volgorde */
+    private static ?array $periodes = null;
 
     /** @var array<string, array<int, float>>|null klassecode => jaar => percentage */
     private static ?array $tabel = null;
@@ -32,6 +35,7 @@ final class RateRepository
     public static function verversCache(): void
     {
         self::$klassen = null;
+        self::$periodes = null;
         self::$tabel = null;
         self::$nhgGrens = null;
     }
@@ -45,19 +49,32 @@ final class RateRepository
         return self::$nhgGrens;
     }
 
-    /** @return array<string, RiskClass> code => klasse, op volgorde */
+    /** @return array<string, RiskClass> code => klasse, op volgorde, alleen actieve */
     private static function klassen(): array
     {
         if (self::$klassen === null) {
-            self::$klassen = RiskClass::query()->orderBy('sort_order')->get()
+            self::$klassen = RiskClass::query()->where('active', true)->orderBy('sort_order')->get()
                 ->mapWithKeys(static fn (RiskClass $k) => [$k->code => $k])
                 ->all();
             if (self::$klassen === []) {
-                throw new \RuntimeException('Geen tariefklassen beschikbaar; vul de admin of draai de seeder.');
+                throw new \RuntimeException('Geen actieve tariefklassen beschikbaar; vul de admin of draai de seeder.');
             }
         }
 
         return self::$klassen;
+    }
+
+    /** @return list<int> actieve rentevaste periodes in jaren, op volgorde */
+    public static function periodes(): array
+    {
+        if (self::$periodes === null) {
+            self::$periodes = FixedPeriod::query()->where('active', true)->orderBy('sort_order')->pluck('years')->all();
+            if (self::$periodes === []) {
+                throw new \RuntimeException('Geen actieve rentevaste periodes beschikbaar; vul de admin of draai de seeder.');
+            }
+        }
+
+        return self::$periodes;
     }
 
     /** De klasse zonder LTV-plafond: het plafond voor een lening boven elke staffel. */
@@ -102,7 +119,7 @@ final class RateRepository
         }
 
         $fallback = json_decode(Setting::get('fallback_rates', '{}') ?? '{}', true) ?: [];
-        $periodes = FixedPeriod::query()->orderBy('years')->pluck('years')->all();
+        $periodes = self::periodes();
 
         $echt = DB::table('rates')
             ->join('rate_sets', 'rate_sets.id', '=', 'rates.rate_set_id')
