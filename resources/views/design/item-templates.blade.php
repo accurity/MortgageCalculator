@@ -51,6 +51,8 @@ declare(strict_types=1);
           <span style="font-family:'JetBrains Mono',monospace;font-size:14.5px;font-weight:500;white-space:nowrap">{r.v}</span>
         </div></script>
 <script type="text/x-item" data-tpl="lenders-1" data-var="l"><button name="do" value="lender:{l.index}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:13px;margin-bottom:7px;border-radius:12px;border:1.5px solid {l.b};background:{l.bg};cursor:pointer">
+          <!--if:l.logo--><img src="{l.logo}" alt="" style="width:32px;height:32px;border-radius:8px;object-fit:contain;flex:none;background:var(--surface2)"><!--/if-->
+          <!--if:l.noLogo--><span style="width:32px;height:32px;border-radius:8px;background:var(--surface2);color:var(--ink3);font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none">{l.initial}</span><!--/if-->
           <span style="flex:1;min-width:0">
             <span style="display:block;font-size:14.5px;font-weight:600">{l.name}</span>
             <span style="display:block;font-size:12px;color:var(--ink3);margin-top:1px">{l.note}</span>

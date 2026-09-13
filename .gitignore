@@ -21,5 +21,6 @@ __pycache__/
 /public/build
 /public/hot
 /public/storage
+/public/logos
 /vendor
 _ide_helper.php

@@ -5,8 +5,8 @@
  *  - de closures (set/remove/pick en het h-blok) zijn vervangen door de
  *    identiteit van het item (key, id, index). Klikken lopen namelijk via het
  *    formulier, net als zonder JavaScript;
- *  - de geldverstrekkers komen uit data/lenders.php in plaats van uit een
- *    vaste lijst in de code.
+ *  - de geldverstrekkers komen uit de database (tabel lenders) in plaats van
+ *    uit een vaste lijst in de code, en zijn niet langer premium-only.
  *
  * De sleutels zijn identiek aan die van App\Services\Mortgage\ViewModel, zodat
  * server- en clientrender inwisselbaar zijn.
@@ -261,15 +261,16 @@
       costSuggest: t.costNames
         .filter(([l]) => !costs.some(c => c.label === l))
         .map(([l, a]) => ({label:l, amount:a})),
-      lenders: LENDERS.map(function (rij, i) {
+      lenders: LENDERS.map(function (rij) {
         var d = rij.delta;
         var r = Math.round((rate + d) * 100) / 100;
-        return {index: i, name: rij.name, note: (rij.note && (rij.note[S.lang] || rij.note.nl)) || '',
+        return {index: rij.id, name: rij.name, note: rij.note || '',
+          logo: rij.logo || null, noLogo: !rij.logo, initial: (rij.name || '').slice(0, 1),
           rate: dec(r), rateValue: r,
           delta: (d < 0 ? '−' : '+') + ' € ' + fmt(Math.abs(atRate(S, r) - C.grossMonthly)) + ' p/m',
           deltaC: d < 0 ? 'var(--accent)' : 'var(--warn)',
-          b: S.lender === i ? 'var(--gold-line)' : 'var(--line)',
-          bg: S.lender === i ? 'var(--gold-soft)' : 'var(--surface)'};
+          b: S.lender === rij.id ? 'var(--gold-line)' : 'var(--line)',
+          bg: S.lender === rij.id ? 'var(--gold-soft)' : 'var(--surface)'};
       }),
       scenarios: [
         {l: en ? 'Rate +1% after the fixed period' : 'Rente +1% na de vaste periode',

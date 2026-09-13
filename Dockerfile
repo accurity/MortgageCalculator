@@ -21,6 +21,9 @@ WORKDIR /var/www/html
 
 RUN composer install --no-dev --optimize-autoloader --no-interaction \
     && chown -R www-data:www-data storage bootstrap/cache \
-    && chmod -R ug+rwx storage bootstrap/cache
+    && chmod -R ug+rwx storage bootstrap/cache \
+    && mkdir -p public/logos \
+    && chown www-data:www-data public/logos \
+    && chmod ug+rwx public/logos
 
 EXPOSE 80

@@ -116,10 +116,11 @@ foreach ($gevallen as $geval) {
 $payload = [
     'constants'    => Constants::forJs(),
     'translations' => Translations::alle(),
-    'lenders'      => array_map(
-        static fn (array $rij): array => ['name' => $rij['name'], 'delta' => $rij['delta'], 'note' => $rij['note']],
-        array_values(array_filter(require __DIR__ . '/../data/lenders.php', static fn (array $r): bool => !empty($r['active'])))
-    ),
+    'lenders'      => \App\Models\Lender::query()->where('active', true)->orderBy('sort_order')->orderBy('name')->get()
+        ->map(static fn (\App\Models\Lender $l): array => [
+            'id' => $l->id, 'name' => $l->name, 'delta' => $l->delta,
+            'note' => (string)($l->description ?? ''), 'logo' => $l->logoUrl(),
+        ])->values()->all(),
     'cases'        => $cases,
 ];
 $tmp = sys_get_temp_dir() . '/hypotheek-parity-' . getmypid() . '.json';

@@ -185,10 +185,6 @@
   ],
   "locked": [
    [
-    "Actuele tarieven per geldverstrekker",
-    "Veertien aanbieders, gefilterd op jouw bedrag en tariefklasse, met het maandverschil erbij."
-   ],
-   [
     "Alle jaren plus maanddetail",
     "Het volledige aflossingsschema, uitklapbaar per maand, te exporteren als CSV."
    ],
@@ -409,10 +405,6 @@
    "20% penalty-free repayment"
   ],
   "locked": [
-   [
-    "Live rates per lender",
-    "Fourteen providers, filtered on your amount and rate class, with the monthly difference alongside."
-   ],
    [
     "Every year plus monthly detail",
     "The full amortisation schedule, expandable per month, exportable as CSV."

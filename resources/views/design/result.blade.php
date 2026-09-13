@@ -133,16 +133,17 @@ declare(strict_types=1);
       </div>
     </div>
 
-    <!--t--><?php if ($v['is']['premium']): ?><!--t-->
-    <div style="padding:22px;border-radius:16px;background:var(--surface);border:1px solid var(--gold-line)">
-      <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px">
-        <span style="width:5px;height:5px;border-radius:99px;background:var(--gold-dot)"></span>
-        <span style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);font-weight:600">Premium</span>
-      </div>
+    <!--t--><?php if (!empty($v['lenders'])): ?><!--t-->
+    <div style="padding:22px;border-radius:16px;background:var(--surface);border:1px solid var(--line)">
       <h2 style="margin:0 0 3px;font-size:20px;font-weight:600;letter-spacing:-0.025em"><!--b:t.lendersTitle--><?= e($v['t']['lendersTitle']) ?></h2>
       <p style="margin:0 0 16px;font-size:13.5px;line-height:1.5;color:var(--ink2)"><!--b:f.ratesNote--><?= e($v['f']['ratesNote']) ?></p>
       <!--list:lenders-1--><?php foreach ($v['lenders'] as $l): ?><!--t-->
         <button name="do" value="lender:<?= e($l['index']) ?>" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:13px;margin-bottom:7px;border-radius:12px;border:1.5px solid <?= e($l['b']) ?>;background:<?= e($l['bg']) ?>;cursor:pointer">
+          <?php if (!empty($l['logo'])): ?>
+            <img src="<?= e($l['logo']) ?>" alt="" style="width:32px;height:32px;border-radius:8px;object-fit:contain;flex:none;background:var(--surface2)">
+          <?php else: ?>
+            <span style="width:32px;height:32px;border-radius:8px;background:var(--surface2);color:var(--ink3);font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none"><?= e(mb_substr($l['name'], 0, 1)) ?></span>
+          <?php endif; ?>
           <span style="flex:1;min-width:0">
             <span style="display:block;font-size:14.5px;font-weight:600"><?= e($l['name']) ?></span>
             <span style="display:block;font-size:12px;color:var(--ink3);margin-top:1px"><?= e($l['note']) ?></span>
@@ -154,7 +155,9 @@ declare(strict_types=1);
         </button>
       <!--t--><?php endforeach; ?><!--/list:lenders-1-->
     </div>
+    <!--t--><?php endif; ?><!--t-->
 
+    <!--t--><?php if ($v['is']['premium']): ?><!--t-->
     <div style="padding:22px;border-radius:16px;background:var(--surface);border:1px solid var(--gold-line)">
       <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px">
         <span style="width:5px;height:5px;border-radius:99px;background:var(--gold-dot)"></span>
