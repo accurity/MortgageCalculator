@@ -137,4 +137,30 @@ ul.text-red-600, .text-red-600 { color: var(--danger); font-size: 13px; margin: 
 .ms-3 { margin-left: 12px; }
 .ms-2 { margin-left: 8px; }
 .w-full { width: 100%; }
+
+textarea {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.tax-years-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tax-years-table th, .tax-years-table td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.tax-years-table th { color: var(--ink2); font-weight: 600; }
+
+.link-button {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--danger);
+  text-decoration: underline;
+  font-size: inherit;
+}
 .underline { text-decoration: underline; }

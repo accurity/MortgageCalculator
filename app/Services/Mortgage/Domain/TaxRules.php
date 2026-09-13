@@ -4,56 +4,20 @@ declare(strict_types=1);
 
 namespace App\Services\Mortgage\Domain;
 
+use App\Models\TaxYear;
+
 /**
  * Fiscale parameters voor box 1 / eigen woning, per jaar.
  *
- * LET OP: deze tarieven zijn hier bewust als losstaande configuratie opgenomen
- * zodat ze eenvoudig bijgewerkt kunnen worden. Controleer de waarden altijd bij
- * de Belastingdienst voordat je op de uitkomst vertrouwt. Voor jaren die niet in
- * de tabel staan wordt het dichtstbijzijnde bekende jaar gebruikt.
+ * De waarden komen uit de tabel `tax_years`, beheerd via /admin/tax-years.
+ * Controleer ze altijd bij de Belastingdienst voordat je op de uitkomst
+ * vertrouwt. Voor jaren die niet in de tabel staan wordt het dichtstbijzijnde
+ * bekende jaar gebruikt en geldt de uitkomst als schatting.
  */
 final class TaxRules
 {
-    /**
-     * Schijven voor belastingplichtigen die de AOW-leeftijd nog niet hebben bereikt.
-     * Elke schijf: ['tot' => bovengrens of null, 'tarief' => fractie].
-     *
-     * @var array<int, array{schijven: list<array{tot: float|null, tarief: float}>, max_aftrektarief: float, ewf_percentage: float, ewf_grens: float, hillen: float}>
-     */
-    private const JAREN = [
-        2024 => [
-            'schijven' => [
-                ['tot' => 75518.0, 'tarief' => 0.3697],
-                ['tot' => null,    'tarief' => 0.4950],
-            ],
-            'max_aftrektarief' => 0.3697,
-            'ewf_percentage'   => 0.0035,
-            'ewf_grens'        => 1310000.0,
-            'hillen'           => 0.8000,
-        ],
-        2025 => [
-            'schijven' => [
-                ['tot' => 38441.0, 'tarief' => 0.3582],
-                ['tot' => 76817.0, 'tarief' => 0.3748],
-                ['tot' => null,    'tarief' => 0.4950],
-            ],
-            'max_aftrektarief' => 0.3748,
-            'ewf_percentage'   => 0.0035,
-            'ewf_grens'        => 1330000.0,
-            'hillen'           => 0.7667,
-        ],
-        2026 => [
-            'schijven' => [
-                ['tot' => 38883.0, 'tarief' => 0.3570],
-                ['tot' => 79137.0, 'tarief' => 0.3756],
-                ['tot' => null,    'tarief' => 0.4950],
-            ],
-            'max_aftrektarief' => 0.3756,
-            'ewf_percentage'   => 0.0035,
-            'ewf_grens'        => 1350000.0,
-            'hillen'           => 0.7333,
-        ],
-    ];
+    /** @var array<int, array{schijven: list<array{tot: float|null, tarief: float}>, max_aftrektarief: float, ewf_percentage: float, ewf_grens: float, hillen: float}>|null */
+    private static ?array $jaren = null;
 
     /**
      * @param list<array{tot: float|null, tarief: float}> $schijven
@@ -72,14 +36,19 @@ final class TaxRules
 
     public static function voorJaar(int $jaar): self
     {
-        $bekend = array_keys(self::JAREN);
+        $alle = self::alleJaren();
+        if ($alle === []) {
+            throw new \RuntimeException('Geen belastingjaren beschikbaar; vul de admin of draai de seeder.');
+        }
+
+        $bekend = array_keys($alle);
         $isSchatting = !in_array($jaar, $bekend, true);
 
         $gekozen = $jaar;
         if ($isSchatting) {
             $gekozen = $jaar < min($bekend) ? min($bekend) : max($bekend);
         }
-        $cfg = self::JAREN[$gekozen];
+        $cfg = $alle[$gekozen];
 
         // Wet Hillen wordt in gelijke stappen afgebouwd tot 0 in 2048.
         $hillen = $cfg['hillen'];
@@ -96,6 +65,36 @@ final class TaxRules
             hillenAandeel: $hillen,
             isSchatting: $isSchatting,
         );
+    }
+
+    /**
+     * Eén keer per request opgehaald en in het geheugen bewaard: de
+     * jaaraggregatie roept voorJaar() aan voor elk kalenderjaar in het
+     * aflossingsschema (tot dertig keer per berekening).
+     *
+     * @return array<int, array{schijven: list<array{tot: float|null, tarief: float}>, max_aftrektarief: float, ewf_percentage: float, ewf_grens: float, hillen: float}>
+     */
+    private static function alleJaren(): array
+    {
+        if (self::$jaren === null) {
+            self::$jaren = TaxYear::query()->orderBy('jaar')->get()
+                ->mapWithKeys(static fn (TaxYear $j) => [$j->jaar => [
+                    'schijven' => $j->schijven,
+                    'max_aftrektarief' => $j->max_aftrektarief,
+                    'ewf_percentage' => $j->ewf_percentage,
+                    'ewf_grens' => $j->ewf_grens,
+                    'hillen' => $j->hillen_aandeel,
+                ]])
+                ->all();
+        }
+
+        return self::$jaren;
+    }
+
+    /** Wist de in-memory cache; nodig na een wijziging in dezelfde requestcyclus (tests, seeders). */
+    public static function verversCache(): void
+    {
+        self::$jaren = null;
     }
 
     /** Inkomstenbelasting box 1 over een belastbaar inkomen (zonder heffingskortingen). */

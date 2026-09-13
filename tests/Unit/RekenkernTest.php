@@ -9,14 +9,13 @@ use App\Services\Mortgage\Domain\CalculationRequest;
 use App\Services\Mortgage\Domain\LoanPart;
 use App\Services\Mortgage\Domain\MonthlyCost;
 use App\Services\Mortgage\Domain\Mortgage;
-use App\Services\Mortgage\Domain\TaxCalculator;
-use App\Services\Mortgage\Domain\TaxRules;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Poort van het oorspronkelijke tests/run.php: dezelfde gevallen, nu als
  * PHPUnit-assertions op de rekenkern (aflossingsschema's, 30-jaarsgrens,
- * fiscale berekening, getalnotatie).
+ * getalnotatie). De fiscale berekening (database-gedreven sinds de
+ * belastingjaren-admin) staat in tests/Feature/TaxCalculationTest.php.
  */
 final class RekenkernTest extends TestCase
 {
@@ -126,32 +125,6 @@ final class RekenkernTest extends TestCase
 
         $somRente = array_sum(array_map(static fn ($j) => $j->rente, $res->jaren));
         $this->assertTrue($this->bijna($somRente, $res->totaleRente, 0.5));
-    }
-
-    public function test_belastingberekening(): void
-    {
-        $tax = new TaxCalculator(400000.0);
-        $r = $tax->bereken(2026, 70000.0, 12000.0);
-
-        $this->assertTrue($this->bijna($r->eigenwoningforfait, 1400.0));
-        $this->assertTrue($this->bijna($r->aftrekpost, 10600.0));
-        $this->assertGreaterThan(0, $r->voordeelJaar);
-        $this->assertTrue(
-            $this->bijna($r->effectiefVoordeelTarief, 0.3756, 0.01),
-            (string)round($r->effectiefVoordeelTarief, 4)
-        );
-
-        $regels = TaxRules::voorJaar(2026);
-        $hoog = $tax->bereken(2026, 120000.0, 20000.0);
-        $maxTarief = $regels->maxAftrektarief;
-        $this->assertLessThanOrEqual(
-            $maxTarief + 0.0001,
-            $hoog->effectiefVoordeelTarief,
-            (string)round($hoog->effectiefVoordeelTarief, 4)
-        );
-
-        $laag = $tax->bereken(2026, 30000.0, 500.0);
-        $this->assertGreaterThan(0.0, $laag->hillenAftrek);
     }
 
     public function test_invoer_parsen(): void
