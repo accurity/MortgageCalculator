@@ -7,6 +7,7 @@ namespace App\Console\Commands;
 use App\Models\Lender;
 use App\Models\Setting;
 use App\Services\Mortgage\Domain\Scraping\ScrapeRunner;
+use App\Services\Mortgage\Domain\Scraping\StalenessNotifier;
 use Illuminate\Console\Command;
 
 /**
@@ -73,6 +74,13 @@ final class RatesRefreshCommand extends Command
             } else {
                 $mislukt++;
                 $this->error('  Mislukt: ' . $resultaat->message . ' De vorige tariefset blijft actueel.');
+            }
+        }
+
+        if (!$dryRun) {
+            $aantalGewaarschuwd = StalenessNotifier::verstuurIndienNodig();
+            if ($aantalGewaarschuwd > 0) {
+                $this->warn("Waarschuwing verstuurd voor $aantalGewaarschuwd verstrekker(s) met een verouderde tariefset.");
             }
         }
 

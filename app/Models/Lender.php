@@ -31,6 +31,7 @@ final class Lender extends Model
         'surcharge_ann',
         'surcharge_lin',
         'surcharge_av',
+        'last_stale_alert_at',
     ];
 
     protected function casts(): array
@@ -42,6 +43,7 @@ final class Lender extends Model
             'surcharge_ann' => 'float',
             'surcharge_lin' => 'float',
             'surcharge_av' => 'float',
+            'last_stale_alert_at' => 'datetime',
         ];
     }
 
@@ -63,6 +65,11 @@ final class Lender extends Model
     public function rateSource(): HasOne
     {
         return $this->hasOne(RateSource::class);
+    }
+
+    public function scrapeRuns(): HasMany
+    {
+        return $this->hasMany(ScrapeRun::class);
     }
 
     /**

@@ -6,6 +6,7 @@ namespace App\Services\Mortgage\Domain\Scraping;
 
 use App\Models\Lender;
 use App\Models\RateSet;
+use App\Models\ScrapeRun;
 use App\Services\Mortgage\Domain\RateRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -14,7 +15,9 @@ use Illuminate\Support\Facades\Http;
  * Eén scrape-poging voor één verstrekker: robots.txt, ophalen, parsen en -
  * behalve bij een dry-run - alles-of-niets opslaan als een nieuwe actuele
  * tariefset. Een mislukte of onvolledige poging laat de vorige set
- * ongewijzigd actueel; er wordt dan niets geschreven.
+ * ongewijzigd actueel; er wordt dan niets geschreven. Elke poging wordt
+ * gelogd in scrape_runs (#15); de ruwe respons alleen bij een mislukte of
+ * lege run.
  */
 final class ScrapeRunner
 {
@@ -25,6 +28,26 @@ final class ScrapeRunner
     }
 
     public function run(Lender $lender, bool $dryRun = false): ScrapeResult
+    {
+        $begin = microtime(true);
+        $ruweRespons = null;
+
+        $resultaat = $this->uitvoeren($lender, $dryRun, $ruweRespons);
+
+        ScrapeRun::query()->create([
+            'lender_id' => $lender->id,
+            'is_dry_run' => $dryRun,
+            'duration_ms' => (int)round((microtime(true) - $begin) * 1000),
+            'rate_count' => count($resultaat->rijen),
+            'status' => $resultaat->success ? 'ok' : 'failed',
+            'message' => $resultaat->message,
+            'raw_response' => !$resultaat->success ? $ruweRespons : null,
+        ]);
+
+        return $resultaat;
+    }
+
+    private function uitvoeren(Lender $lender, bool $dryRun, ?string &$ruweRespons): ScrapeResult
     {
         $bron = $lender->rateSource;
         if ($bron === null || !$bron->scraping_allowed) {
@@ -42,9 +65,12 @@ final class ScrapeRunner
         }
 
         if (!$response->successful()) {
+            $ruweRespons = $response->body();
+
             return ScrapeResult::mislukt('HTTP ' . $response->status() . ' bij het ophalen van de pagina.');
         }
 
+        $ruweRespons = $response->body();
         $resultaat = HtmlTableScraper::parseer($response->body(), $bron->table_selector, $bron->column_map);
         if (!$resultaat->success || $dryRun) {
             return $resultaat;
