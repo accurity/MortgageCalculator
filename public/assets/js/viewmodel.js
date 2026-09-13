@@ -239,7 +239,7 @@
         c: y.y <= S.fixedY ? 'var(--accent)' : 'var(--ink3)'
       })),
       tax: taxRows,
-      fixOpts: [1, 5, 10, 20, 30].map(v => {
+      fixOpts: CONST.FIXED_OPTIONS.map(v => {
         const klasse = D.riskClass(S);
         const r = CONST.RATE_TABLE[klasse.code][v] != null ? CONST.RATE_TABLE[klasse.code][v] : 4.0;
         return {y:v, rate: dec(r), b: sel(S.fixedY === v).b, bg: sel(S.fixedY === v).bg};

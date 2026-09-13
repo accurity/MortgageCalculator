@@ -15,13 +15,14 @@ final class FixedPeriod extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['years', 'sort_order'];
+    protected $fillable = ['years', 'sort_order', 'active'];
 
     protected function casts(): array
     {
         return [
             'years' => 'integer',
             'sort_order' => 'integer',
+            'active' => 'boolean',
         ];
     }
 

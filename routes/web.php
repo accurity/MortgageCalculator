@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\FixedPeriodController;
 use App\Http\Controllers\Admin\LenderController;
 use App\Http\Controllers\Admin\RateSetController;
+use App\Http\Controllers\Admin\RiskClassController;
 use App\Http\Controllers\Admin\TaxYearController;
 use App\Http\Controllers\CalculatorController;
 use App\Http\Controllers\ProfileController;
@@ -31,6 +33,16 @@ Route::middleware('auth')->group(function () {
         ->only(['index', 'create', 'store'])
         ->names('admin.lenders.rate-sets')
         ->parameters(['lenders' => 'lender']);
+
+    Route::resource('admin/risk-classes', RiskClassController::class)
+        ->except('show')
+        ->names('admin.risk-classes')
+        ->parameters(['risk-classes' => 'risk_class']);
+
+    Route::resource('admin/fixed-periods', FixedPeriodController::class)
+        ->except('show')
+        ->names('admin.fixed-periods')
+        ->parameters(['fixed-periods' => 'fixed_period']);
 });
 
 require __DIR__.'/auth.php';

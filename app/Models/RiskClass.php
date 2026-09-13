@@ -15,7 +15,7 @@ final class RiskClass extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['code', 'name', 'max_ltv', 'nhg', 'sort_order'];
+    protected $fillable = ['code', 'name', 'max_ltv', 'nhg', 'sort_order', 'active'];
 
     protected function casts(): array
     {
@@ -23,6 +23,7 @@ final class RiskClass extends Model
             'max_ltv' => 'float',
             'nhg' => 'boolean',
             'sort_order' => 'integer',
+            'active' => 'boolean',
         ];
     }
 
