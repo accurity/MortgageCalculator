@@ -339,8 +339,8 @@ final class ViewModel
             'ioSaving' => $this->fmt($ioBesparing),
             'ioRate' => $this->dec($ioRate),
             'ioRateNote' => $en
-                ? 'Lenders typically add ' . $this->dec(Constants::IO_SURCHARGE) . '% on an interest-only part, because nothing is being repaid against it.'
-                : 'Geldverstrekkers rekenen op een aflossingsvrij deel doorgaans ' . $this->dec(Constants::IO_SURCHARGE) . '% opslag, omdat er geen aflossing tegenover staat.',
+                ? 'Lenders typically add ' . $this->dec(Constants::ioSurcharge()) . '% on an interest-only part, because nothing is being repaid against it.'
+                : 'Geldverstrekkers rekenen op een aflossingsvrij deel doorgaans ' . $this->dec(Constants::ioSurcharge()) . '% opslag, omdat er geen aflossing tegenover staat.',
             'ioTaxNote' => ($renew && $S->preTwentyThirteen)
                 ? ($en
                     ? 'Because your mortgage predates 2013, interest on this part stays deductible until your thirty years are up.'

@@ -8,17 +8,21 @@ use App\Models\Setting;
 use Illuminate\Database\Seeder;
 
 /**
- * NHG-grens en de terugvalgemiddelden per tariefklasse en periode, gebruikt
- * zolang er nog geen (of geen volledige) actuele tariefset ligt. De waarden
- * hier zijn gelijk aan wat vóór deze migratie hardgecodeerd in Constants en
- * Calculator::ltvAdj() stond, zodat de bestaande schermen niet veranderen
- * totdat een beheerder echte tarieven invoert.
+ * NHG-grens, de terugvalgemiddelden per tariefklasse en periode (gebruikt
+ * zolang er nog geen, of geen volledige, actuele tariefset ligt), de
+ * aflossingsvrij-opslag en het maximale aflossingsvrije aandeel. De waarden
+ * hier zijn gelijk aan wat vóór deze migraties hardgecodeerd in Constants en
+ * Calculator::ltvAdj() stonden, zodat de bestaande schermen niet veranderen
+ * totdat een beheerder ze zelf wijzigt.
  */
 final class SettingSeeder extends Seeder
 {
     public function run(): void
     {
         Setting::set('nhg_grens', '435000');
+        Setting::set('io_surcharge', '0.20');
+        Setting::set('io_max_share', '0.5');
+        Setting::set('alarm_email', '');
 
         Setting::set('fallback_rates', json_encode([
             'nhg' => [1 => 4.11, 5 => 3.76, 10 => 3.86, 20 => 4.16, 30 => 4.36],

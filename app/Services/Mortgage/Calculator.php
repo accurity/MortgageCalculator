@@ -91,12 +91,12 @@ final class Calculator
 
     public function ioRate(): float
     {
-        return $this->state->ioRate ?? round(($this->rate() + Constants::IO_SURCHARGE) * 100) / 100;
+        return $this->state->ioRate ?? round(($this->rate() + Constants::ioSurcharge()) * 100) / 100;
     }
 
     public function ioMax(): float
     {
-        $ruw = round($this->homeValue() * Constants::IO_MAX_SHARE / 5000) * 5000;
+        $ruw = round($this->homeValue() * Constants::ioMaxShare() / 5000) * 5000;
 
         return max(0.0, min($this->totalLoan(), $ruw));
     }
@@ -208,7 +208,7 @@ final class Calculator
     {
         $totaal = 0.0;
         foreach ($this->partsData() as $deel) {
-            $deel['rate'] = $deel['form'] === 'av' ? $rente + Constants::IO_SURCHARGE : $rente;
+            $deel['rate'] = $deel['form'] === 'av' ? $rente + Constants::ioSurcharge() : $rente;
             $totaal += self::firstPay($deel);
         }
 

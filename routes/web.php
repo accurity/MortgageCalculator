@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\LenderController;
 use App\Http\Controllers\Admin\RateImportController;
 use App\Http\Controllers\Admin\RateSetController;
 use App\Http\Controllers\Admin\RiskClassController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\TaxYearController;
 use App\Http\Controllers\CalculatorController;
 use App\Http\Controllers\ProfileController;
@@ -48,6 +49,9 @@ Route::middleware('auth')->group(function () {
     Route::get('admin/rate-imports/create', [RateImportController::class, 'create'])->name('admin.rate-imports.create');
     Route::post('admin/rate-imports', [RateImportController::class, 'store'])->name('admin.rate-imports.store');
     Route::post('admin/rate-imports/confirm', [RateImportController::class, 'confirm'])->name('admin.rate-imports.confirm');
+
+    Route::get('admin/settings', [SettingsController::class, 'edit'])->name('admin.settings.edit');
+    Route::put('admin/settings', [SettingsController::class, 'update'])->name('admin.settings.update');
 });
 
 require __DIR__.'/auth.php';
