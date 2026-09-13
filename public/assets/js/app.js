@@ -173,6 +173,32 @@
     }
   }
 
+  /**
+   * werkLijstBij breekt alle knopen in een lijst af en bouwt ze opnieuw op,
+   * ook het invoerveld waar de gebruiker net in typt. Zonder dit haakje
+   * springt de focus na elk toetsaanslag terug naar het formulier.
+   */
+  function legFocusVast() {
+    var el = document.activeElement;
+    if (!el || !form.contains(el) || !el.name || typeof el.selectionStart !== 'number') return null;
+    return { naam: el.name, start: el.selectionStart, eind: el.selectionEnd };
+  }
+
+  function herstelFocus(focus) {
+    if (!focus) return;
+    if (document.activeElement && document.activeElement.name === focus.naam) return;
+    // Ook de verborgen kopie in het js-state-bakje draagt dezelfde naam en
+    // staat vooraan in de document-volgorde: die moet hier overgeslagen.
+    var kandidaten = form.querySelectorAll('[name="' + focus.naam.replace(/"/g, '\\"') + '"]');
+    var el = null;
+    for (var i = 0; i < kandidaten.length; i++) {
+      if (kandidaten[i].type !== 'hidden') { el = kandidaten[i]; break; }
+    }
+    if (!el) return;
+    el.focus();
+    try { el.setSelectionRange(focus.start, focus.eind); } catch (e) { /* niet elk veldtype ondersteunt dit */ }
+  }
+
   function teken() {
     var vm = window.ViewModel.render(S);
 
@@ -188,7 +214,9 @@
       if (a.el.getAttribute(a.attr) !== waarde) a.el.setAttribute(a.attr, waarde);
     });
 
+    var focus = legFocusVast();
     lijsten.forEach(function (blok) { werkLijstBij(blok, vm); });
+    herstelFocus(focus);
 
     // Velden die de gebruiker niet zelf aanraakt (bijv. het maximum van de
     // aflossingsvrij-schuif) lopen mee met de berekening.
