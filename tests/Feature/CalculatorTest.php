@@ -4,10 +4,20 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use Database\Seeders\TaxYearSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 final class CalculatorTest extends TestCase
 {
+    use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(TaxYearSeeder::class);
+    }
+
     public function test_homepage_toont_wizardstap_1(): void
     {
         $response = $this->get('/');

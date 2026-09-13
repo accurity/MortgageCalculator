@@ -107,6 +107,7 @@ alle nul. `tests/ontwerp/*.png` staat in de repo zodat dit zonder het ontwerpbes
 
 ```
 app/Http/Controllers/CalculatorController.php  state lezen, knopacties uitvoeren, CSV-export
+app/Http/Controllers/Admin/TaxYearController.php  CRUD voor de fiscale jaartarieven
 app/Services/Mortgage/Domain/          rekenkern: LoanPart, Amortization, Mortgage, TaxRules,
                                         TaxCalculator, CalculationRequest, Input, Formatter
 app/Services/Mortgage/State.php        de state uit het ontwerp, gelezen uit de request
@@ -114,8 +115,10 @@ app/Services/Mortgage/Calculator.php   afgeleiden en jaaraggregatie op basis van
 app/Services/Mortgage/ViewModel.php    alle schermwaarden; de PHP-tegenhanger van viewmodel.js
 app/Services/Mortgage/Constants.php    marktrentes en opslagen; fiscale cijfers komen uit TaxRules
 app/Services/Mortgage/translations.json  NL/EN-teksten, letterlijk uit het ontwerp
+app/Models/TaxYear.php                 fiscale jaartarieven (schijven, EWF, Wet Hillen), tabel tax_years
 resources/views/design/                de nagebouwde schermen; inline styles uit het ontwerp
-routes/web.php                         één route: GET/POST "/" -> CalculatorController
+resources/views/admin/tax-years/       CRUD-schermen voor de belastingjaren
+routes/web.php                         "/" -> CalculatorController, "/admin/..." -> beheer
 public/assets/css/      design tokens en @font-face uit het ontwerp
 public/assets/fonts/    Schibsted Grotesk en JetBrains Mono (variable, per subset)
 public/assets/js/       calc.js (rekenkern), viewmodel.js (schermwaarden), app.js (bindingen)
@@ -141,9 +144,10 @@ docker-compose.yml      app op poort 8080 + een MariaDB-service
 
 ## Fiscale aannames en beperkingen
 
-De tarieven staan als gewone PHP-array in `app/Services/Mortgage/Domain/TaxRules.php`, per
-jaar. **Controleer ze bij de Belastingdienst voordat je op de uitkomst vertrouwt.** Voor jaren
-die niet in de tabel staan wordt het laatst bekende jaar doorgetrokken; het overzicht meldt dat.
+De tarieven staan per jaar in de `tax_years`-tabel, beheerbaar via `/admin/tax-years`
+(`database/seeders/TaxYearSeeder.php` vult 2024-2026). **Controleer ze bij de Belastingdienst
+voordat je op de uitkomst vertrouwt.** Voor jaren die niet in de tabel staan wordt het laatst
+bekende jaar doorgetrokken en geldt de uitkomst als schatting.
 
 Bewust buiten beschouwing gelaten, om de berekening navolgbaar te houden:
 

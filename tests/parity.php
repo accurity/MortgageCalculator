@@ -14,6 +14,12 @@ declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
+// De rekenkern leest de fiscale jaartarieven uit de database, dus de app
+// moet gebootstrapt zijn (config, database) voordat Constants/TaxRules iets
+// kunnen opvragen.
+$app = require __DIR__ . '/../bootstrap/app.php';
+$app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+
 use App\Services\Mortgage\Calculator;
 use App\Services\Mortgage\Constants;
 use App\Services\Mortgage\State;
