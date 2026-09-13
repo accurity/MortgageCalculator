@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\LenderController;
 use App\Http\Controllers\Admin\TaxYearController;
 use App\Http\Controllers\CalculatorController;
 use App\Http\Controllers\ProfileController;
@@ -19,6 +20,11 @@ Route::middleware('auth')->group(function () {
         ->except('show')
         ->names('admin.tax-years')
         ->parameters(['tax-years' => 'tax_year']);
+
+    Route::resource('admin/lenders', LenderController::class)
+        ->except('show')
+        ->names('admin.lenders')
+        ->parameters(['lenders' => 'lender']);
 });
 
 require __DIR__.'/auth.php';

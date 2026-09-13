@@ -35,9 +35,10 @@
     curForm: function (arg) { S.curForm = arg; },
     togglePre: function () { S.preTwentyThirteen = !S.preTwentyThirteen; S.parts = null; },
     lender: function (arg) {
-      var i = parseInt(arg, 10), rij = DATA.lenders[i];
+      var id = parseInt(arg, 10);
+      var rij = DATA.lenders.filter(function (r) { return r.id === id; })[0];
       if (!rij) return;
-      S.lender = i;
+      S.lender = id;
       S.rate = Math.round((window.Calc.derive.rate(S) + rij.delta) * 100) / 100;
       S.parts = null;
     },

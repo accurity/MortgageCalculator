@@ -504,32 +504,31 @@ final class ViewModel
      */
     private function verstrekkers(array $C, float $rate): array
     {
-        $bestand = __DIR__ . '/../../../data/lenders.php';
-        if (!is_file($bestand)) {
-            return [];
-        }
-
-        /** @var list<array<string, mixed>> $rijen */
-        $rijen = require $bestand;
+        $rijen = \App\Models\Lender::query()
+            ->where('active', true)
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get();
         $uit = [];
 
-        foreach ($rijen as $i => $rij) {
-            if (empty($rij['active'])) {
-                continue;
-            }
-            $d = (float)$rij['delta'];
+        foreach ($rijen as $rij) {
+            $d = $rij->delta;
             $r = round(($rate + $d) * 100) / 100;
             $verschil = $this->calc->atRate($r) - $C['grossMonthly'];
 
+            $logo = $rij->logoUrl();
             $uit[] = [
-                'index' => $i,
-                'name' => (string)$rij['name'],
-                'note' => (string)($rij['note'][$this->state->lang] ?? $rij['note']['nl'] ?? ''),
+                'index' => $rij->id,
+                'name' => $rij->name,
+                'note' => (string)($rij->description ?? ''),
+                'logo' => $logo,
+                'noLogo' => $logo === null,
+                'initial' => mb_substr($rij->name, 0, 1),
                 'rate' => $this->dec($r),
                 'delta' => ($d < 0 ? '−' : '+') . ' € ' . $this->fmt(abs($verschil)) . ' p/m',
                 'deltaC' => $d < 0 ? 'var(--accent)' : 'var(--warn)',
-                'b' => $this->state->lender === $i ? 'var(--gold-line)' : 'var(--line)',
-                'bg' => $this->state->lender === $i ? 'var(--gold-soft)' : 'var(--surface)',
+                'b' => $this->state->lender === $rij->id ? 'var(--gold-line)' : 'var(--line)',
+                'bg' => $this->state->lender === $rij->id ? 'var(--gold-soft)' : 'var(--surface)',
                 'rateValue' => $r,
             ];
         }

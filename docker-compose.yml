@@ -24,11 +24,12 @@ services:
     volumes:
       - ./app:/var/www/html/app:ro
       - ./config:/var/www/html/config:ro
-      - ./data:/var/www/html/data:ro
       - ./database:/var/www/html/database:ro
       - ./public:/var/www/html/public:ro
       - ./resources:/var/www/html/resources:ro
       - ./routes:/var/www/html/routes:ro
+      # Enige uitzondering op read-only: logo-uploads schrijven hierheen.
+      - ./public/logos:/var/www/html/public/logos:rw
 
   db:
     image: mariadb:11

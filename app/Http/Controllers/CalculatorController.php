@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\Lender;
 use App\Services\Mortgage\Calculator;
 use App\Services\Mortgage\Constants;
 use App\Services\Mortgage\State;
@@ -273,17 +274,16 @@ final class CalculatorController extends Controller
         $s->nextId++;
     }
 
-    private function kiesGeldverstrekker(State $s, int $index): void
+    private function kiesGeldverstrekker(State $s, int $id): void
     {
-        /** @var list<array<string, mixed>> $rijen */
-        $rijen = require __DIR__ . '/../../../data/lenders.php';
-        if (!isset($rijen[$index]) || empty($rijen[$index]['active'])) {
+        $lender = Lender::query()->where('active', true)->find($id);
+        if ($lender === null) {
             return;
         }
 
         $calc = new Calculator($s);
-        $s->lender = $index;
-        $s->rate = round(($calc->rate() + (float)$rijen[$index]['delta']) * 100) / 100;
+        $s->lender = $lender->id;
+        $s->rate = round(($calc->rate() + $lender->delta) * 100) / 100;
         $s->parts = null;
     }
 

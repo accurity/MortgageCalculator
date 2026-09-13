@@ -110,7 +110,7 @@ final class State
             $s->loan = self::getal($in, 'loan', 0.0, 0, 100_000_000);
         }
         if (isset($in['lender']) && $in['lender'] !== '') {
-            $s->lender = (int)self::getal($in, 'lender', 0.0, 0, 99);
+            $s->lender = (int)self::getal($in, 'lender', 0.0, 0, 999999999);
         }
 
         $s->step = (int)self::getal($in, 'step', 0.0, 0, 20);

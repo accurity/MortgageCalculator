@@ -86,10 +86,11 @@ $deelLijst = $state->parts ?? ($toontDelen ? (new \App\Services\Mortgage\Calcula
     'translations' => Translations::alle(),
     'state'        => $state->toArray(),
     'costs'        => $state->kostenLijst(),
-    'lenders'      => array_map(
-        static fn (array $rij): array => ['name' => $rij['name'], 'delta' => $rij['delta'], 'note' => $rij['note']],
-        array_values(array_filter(require base_path('data/lenders.php'), static fn (array $r): bool => !empty($r['active'])))
-    ),
+    'lenders'      => \App\Models\Lender::query()->where('active', true)->orderBy('sort_order')->orderBy('name')->get()
+        ->map(static fn (\App\Models\Lender $l): array => [
+            'id' => $l->id, 'name' => $l->name, 'delta' => $l->delta,
+            'note' => (string)($l->description ?? ''), 'logo' => $l->logoUrl(),
+        ])->values()->all(),
 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?></script>
 <script src="assets/js/calc.js"></script>
 <script src="assets/js/viewmodel.js"></script>
