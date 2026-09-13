@@ -27,6 +27,9 @@ class LenderRequest extends FormRequest
             'active' => ['boolean'],
             'sort_order' => ['required', 'integer', 'min:0', 'max:9999'],
             'delta' => ['required', 'numeric', 'min:-10', 'max:10'],
+            'surcharge_ann' => ['nullable', 'numeric', 'min:-10', 'max:10'],
+            'surcharge_lin' => ['nullable', 'numeric', 'min:-10', 'max:10'],
+            'surcharge_av' => ['nullable', 'numeric', 'min:-10', 'max:10'],
             'logo' => ['nullable', 'file', 'mimes:png,svg,webp', 'max:512'],
             'logo_url' => ['nullable', 'url', 'max:2048'],
         ];

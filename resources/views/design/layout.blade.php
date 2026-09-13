@@ -90,6 +90,7 @@ $deelLijst = $state->parts ?? ($toontDelen ? (new \App\Services\Mortgage\Calcula
         ->map(static fn (\App\Models\Lender $l): array => [
             'id' => $l->id, 'name' => $l->name, 'delta' => $l->delta,
             'note' => (string)($l->description ?? ''), 'logo' => $l->logoUrl(),
+            'vormOpslagen' => $l->vormOpslagen(),
         ])->values()->all(),
 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?></script>
 <script src="assets/js/calc.js"></script>

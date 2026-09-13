@@ -271,7 +271,8 @@
         .map(([l, a]) => ({label:l, amount:a})),
       lenders: LENDERS.map(function (rij) {
         var d = rij.delta;
-        var r = Math.round((rate + d) * 100) / 100;
+        var opslag = (rij.vormOpslagen && rij.vormOpslagen[S.form]) || 0;
+        var r = Math.round((rate + d + opslag) * 100) / 100;
         return {index: rij.id, name: rij.name, note: rij.note || '',
           logo: rij.logo || null, noLogo: !rij.logo, initial: (rij.name || '').slice(0, 1),
           rate: dec(r), rateValue: r,
