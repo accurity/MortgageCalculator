@@ -28,8 +28,12 @@
                     </div>
 
                     <div class="mt-4">
-                        <x-input-label for="column_map" value="Kolomtoewijzing, op volgorde (periode, klasse, nhg, rente of negeren)" />
+                        <x-input-label for="column_map" value="Kolomtoewijzing" />
                         <x-text-input id="column_map" name="column_map" type="text" class="mt-1 block w-full" :value="old('column_map', $bron ? implode(',', $bron->column_map) : '')" required placeholder="periode,klasse,nhg,rente" />
+                        <p class="text-sm text-gray-500 mt-1">
+                            Eén van deze vijf woorden per kolom, van links naar rechts zoals de kolommen in de tabel staan: <code>periode</code>, <code>klasse</code>, <code>nhg</code>, <code>rente</code> of <code>negeren</code> (voor een kolom die genegeerd moet worden).
+                            Typ hier dus niet de waardes uit de tabel zelf (geen jaartallen, percentages of klassenamen) — alleen deze vijf woorden, gescheiden door komma's.
+                        </p>
                         <x-input-error :messages="$errors->get('column_map')" class="mt-2" />
                     </div>
 

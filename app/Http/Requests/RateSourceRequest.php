@@ -39,7 +39,7 @@ final class RateSourceRequest extends FormRequest
 
             foreach ($rollen as $rol) {
                 if (!in_array($rol, self::TOEGESTANE_ROLLEN, true)) {
-                    $validator->errors()->add('column_map', "Onbekende rol \"$rol\"; gebruik periode, klasse, nhg, rente of negeren.");
+                    $validator->errors()->add('column_map', "Onbekende rol \"$rol\": kolomtoewijzing verwacht per kolom één van de woorden periode, klasse, nhg, rente of negeren — niet de waardes uit de tabel zelf.");
 
                     return;
                 }
