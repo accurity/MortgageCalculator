@@ -20,7 +20,7 @@
   var T_ALL = DATA.translations;
   var LENDERS = DATA.lenders || [];
   var CONST = DATA.constants;
-  var CAP_RATE = CONST.CAP_RATE, HILLEN = CONST.HILLEN, MARKET = CONST.MARKET;
+  var CAP_RATE = CONST.CAP_RATE, HILLEN = CONST.HILLEN;
   var TAX_YEAR = CONST.TAX_YEAR, IO_SURCHARGE = CONST.IO_SURCHARGE;
 
   function fmtFor(lang) {
@@ -52,7 +52,14 @@
       var s = String(Math.round(v * 100) / 100);
       return S.lang === 'en' ? s : s.replace('.', ',');
     };
-    var t = T, en = (S.lang === 'en');
+    var aantalVerstrekkers = LENDERS.length;
+    var t = Object.assign({}, T, {
+      rateUpsell: T.rateUpsell.replace('{n}', String(aantalVerstrekkers)),
+      payFeatures: T.payFeatures.map(function (rij, i) {
+        return i === 0 ? [rij[0].replace('{n}', String(aantalVerstrekkers)), rij[1]] : rij;
+      })
+    });
+    var en = (S.lang === 'en');
     var stapLijst = steps(S), key = stapLijst[S.step] || stapLijst[0];
     const sel = on => ({b: on ? 'var(--accent)' : 'var(--line)', bg: on ? 'var(--accent-soft)' : 'var(--surface)'});
     const total = D.totalLoan(S), rate = D.rate(S), io = Math.min(S.io, D.ioMax(S));
@@ -233,7 +240,8 @@
       })),
       tax: taxRows,
       fixOpts: [1, 5, 10, 20, 30].map(v => {
-        const r = Math.round((MARKET[v] + (renew ? 0 : D.ltvAdj(S))) * 100) / 100;
+        const klasse = D.riskClass(S);
+        const r = CONST.RATE_TABLE[klasse.code][v] != null ? CONST.RATE_TABLE[klasse.code][v] : 4.0;
         return {y:v, rate: dec(r), b: sel(S.fixedY === v).b, bg: sel(S.fixedY === v).bg};
       }),
       formOpts: t.forms.map((f, i) => {

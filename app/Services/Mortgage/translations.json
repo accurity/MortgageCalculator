@@ -51,7 +51,7 @@
   "rateTitle": "De rente",
   "rate": "Rente",
   "monthlyThen": "Maandlast straks",
-  "rateUpsell": "Premium haalt de echte tarieven van veertien geldverstrekkers op voor jouw bedrag en tariefklasse.",
+  "rateUpsell": "Premium haalt de echte tarieven van {n} geldverstrekkers op voor jouw bedrag en tariefklasse.",
   "ioTitle": "Een deel niet aflossen?",
   "ioPart": "Aflossingsvrij deel",
   "ioSavingLabel": "Scheelt per maand",
@@ -199,7 +199,7 @@
   ],
   "payFeatures": [
    [
-    "Tarieven van veertien geldverstrekkers",
+    "Tarieven van {n} geldverstrekkers",
     "Dagelijks opgehaald en gefilterd op jouw bedrag en marktwaarde."
    ],
    [
@@ -272,7 +272,7 @@
   "rateTitle": "The interest rate",
   "rate": "Rate",
   "monthlyThen": "Monthly cost",
-  "rateUpsell": "Premium pulls the real rates from fourteen lenders for your amount and rate class.",
+  "rateUpsell": "Premium pulls the real rates from {n} lenders for your amount and rate class.",
   "ioTitle": "Leave part unrepaid?",
   "ioPart": "Interest-only part",
   "ioSavingLabel": "Saves per month",
@@ -420,7 +420,7 @@
   ],
   "payFeatures": [
    [
-    "Rates from fourteen lenders",
+    "Rates from {n} lenders",
     "Pulled daily and filtered on your amount and market value."
    ],
    [

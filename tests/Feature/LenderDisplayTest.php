@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Models\Lender;
+use Database\Seeders\FixedPeriodSeeder;
+use Database\Seeders\RiskClassSeeder;
+use Database\Seeders\SettingSeeder;
 use Database\Seeders\TaxYearSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -17,6 +20,9 @@ final class LenderDisplayTest extends TestCase
     {
         parent::setUp();
         $this->seed(TaxYearSeeder::class);
+        $this->seed(FixedPeriodSeeder::class);
+        $this->seed(RiskClassSeeder::class);
+        $this->seed(SettingSeeder::class);
     }
 
     public function test_actieve_verstrekker_staat_in_de_design_data(): void
