@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\FixedPeriodController;
 use App\Http\Controllers\Admin\LenderController;
+use App\Http\Controllers\Admin\RateImportController;
 use App\Http\Controllers\Admin\RateSetController;
 use App\Http\Controllers\Admin\RiskClassController;
 use App\Http\Controllers\Admin\TaxYearController;
@@ -43,6 +44,10 @@ Route::middleware('auth')->group(function () {
         ->except('show')
         ->names('admin.fixed-periods')
         ->parameters(['fixed-periods' => 'fixed_period']);
+
+    Route::get('admin/rate-imports/create', [RateImportController::class, 'create'])->name('admin.rate-imports.create');
+    Route::post('admin/rate-imports', [RateImportController::class, 'store'])->name('admin.rate-imports.store');
+    Route::post('admin/rate-imports/confirm', [RateImportController::class, 'confirm'])->name('admin.rate-imports.confirm');
 });
 
 require __DIR__.'/auth.php';
