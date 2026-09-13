@@ -47,9 +47,27 @@
 </div>
 
 <div class="mt-4">
-    <x-input-label for="delta" value="Renteopslag t.o.v. basisrente (procentpunt, tijdelijk tot #7)" />
+    <x-input-label for="delta" value="Renteopslag t.o.v. basisrente (procentpunt)" />
     <x-text-input id="delta" name="delta" type="text" class="mt-1 block w-full" :value="old('delta', $verstrekker->delta ?? 0)" required />
     <x-input-error :messages="$errors->get('delta')" class="mt-2" />
+</div>
+
+<div class="mt-4">
+    <x-input-label for="surcharge_ann" value="Opslag annuïtair (procentpunt, leeg = 0)" />
+    <x-text-input id="surcharge_ann" name="surcharge_ann" type="text" class="mt-1 block w-full" :value="old('surcharge_ann', $verstrekker->surcharge_ann ?? '')" />
+    <x-input-error :messages="$errors->get('surcharge_ann')" class="mt-2" />
+</div>
+
+<div class="mt-4">
+    <x-input-label for="surcharge_lin" value="Opslag lineair (procentpunt, leeg = 0)" />
+    <x-text-input id="surcharge_lin" name="surcharge_lin" type="text" class="mt-1 block w-full" :value="old('surcharge_lin', $verstrekker->surcharge_lin ?? '')" />
+    <x-input-error :messages="$errors->get('surcharge_lin')" class="mt-2" />
+</div>
+
+<div class="mt-4">
+    <x-input-label for="surcharge_av" value="Opslag aflossingsvrij (procentpunt, leeg = de algemene opslag uit de rekeninstellingen)" />
+    <x-text-input id="surcharge_av" name="surcharge_av" type="text" class="mt-1 block w-full" :value="old('surcharge_av', $verstrekker->surcharge_av ?? '')" />
+    <x-input-error :messages="$errors->get('surcharge_av')" class="mt-2" />
 </div>
 
 <div class="mt-4">

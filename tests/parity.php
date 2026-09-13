@@ -120,6 +120,7 @@ $payload = [
         ->map(static fn (\App\Models\Lender $l): array => [
             'id' => $l->id, 'name' => $l->name, 'delta' => $l->delta,
             'note' => (string)($l->description ?? ''), 'logo' => $l->logoUrl(),
+            'vormOpslagen' => $l->vormOpslagen(),
         ])->values()->all(),
     'cases'        => $cases,
 ];

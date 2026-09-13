@@ -517,7 +517,8 @@ final class ViewModel
 
         foreach ($rijen as $rij) {
             $d = $rij->delta;
-            $r = round(($rate + $d) * 100) / 100;
+            $opslag = $rij->vormOpslagen()[$this->state->form] ?? 0.0;
+            $r = round(($rate + $d + $opslag) * 100) / 100;
             $verschil = $this->calc->atRate($r) - $C['grossMonthly'];
 
             $logo = $rij->logoUrl();

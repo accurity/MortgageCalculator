@@ -27,9 +27,10 @@ final class LenderController extends Controller
 
     public function store(LenderRequest $request): RedirectResponse
     {
-        $lender = new Lender($request->safe()->except(['logo', 'logo_url', 'active']));
+        $lender = new Lender($request->safe()->except(['logo', 'logo_url', 'active', 'surcharge_ann', 'surcharge_lin', 'surcharge_av']));
         $lender->slug = $request->string('slug')->toString();
         $lender->active = $request->boolean('active');
+        $this->verwerkVormOpslagen($request, $lender);
         $this->verwerkLogo($request, $lender);
         $lender->save();
 
@@ -43,8 +44,9 @@ final class LenderController extends Controller
 
     public function update(LenderRequest $request, Lender $lender): RedirectResponse
     {
-        $lender->fill($request->safe()->except(['logo', 'logo_url', 'slug', 'active']));
+        $lender->fill($request->safe()->except(['logo', 'logo_url', 'slug', 'active', 'surcharge_ann', 'surcharge_lin', 'surcharge_av']));
         $lender->active = $request->boolean('active');
+        $this->verwerkVormOpslagen($request, $lender);
         $this->verwerkLogo($request, $lender);
         $lender->save();
 
@@ -57,6 +59,14 @@ final class LenderController extends Controller
         $lender->delete();
 
         return redirect()->route('admin.lenders.index')->with('status', 'verwijderd');
+    }
+
+    /** Leeg gelaten opslagvelden worden null (= geen eigen opslag), niet 0. */
+    private function verwerkVormOpslagen(LenderRequest $request, Lender $lender): void
+    {
+        foreach (['surcharge_ann', 'surcharge_lin', 'surcharge_av'] as $veld) {
+            $lender->$veld = $request->filled($veld) ? (float)$request->input($veld) : null;
+        }
     }
 
     /**

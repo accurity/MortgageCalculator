@@ -282,8 +282,9 @@ final class CalculatorController extends Controller
         }
 
         $calc = new Calculator($s);
+        $opslag = $lender->vormOpslagen()[$s->form] ?? 0.0;
         $s->lender = $lender->id;
-        $s->rate = round(($calc->rate() + $lender->delta) * 100) / 100;
+        $s->rate = round(($calc->rate() + $lender->delta + $opslag) * 100) / 100;
         $s->parts = null;
     }
 

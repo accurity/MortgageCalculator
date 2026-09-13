@@ -38,8 +38,9 @@
       var id = parseInt(arg, 10);
       var rij = DATA.lenders.filter(function (r) { return r.id === id; })[0];
       if (!rij) return;
+      var opslag = (rij.vormOpslagen && rij.vormOpslagen[S.form]) || 0;
       S.lender = id;
-      S.rate = Math.round((window.Calc.derive.rate(S) + rij.delta) * 100) / 100;
+      S.rate = Math.round((window.Calc.derive.rate(S) + rij.delta + opslag) * 100) / 100;
       S.parts = null;
     },
     theme: function () {
