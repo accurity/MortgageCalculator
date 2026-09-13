@@ -17,8 +17,6 @@ use App\Models\RiskClass;
 final class RateImporter
 {
     private const VERPLICHTE_KOLOMMEN = ['slug', 'periode', 'klasse', 'nhg', 'rente'];
-    private const NHG_WAARDEN = ['1', 'ja', 'j', 'true', 'yes'];
-    private const MAX_RENTE = 15.0;
 
     public static function verwerk(string $inhoud): RateImportResult
     {
@@ -49,10 +47,6 @@ final class RateImporter
             $velden = str_getcsv($regel);
 
             $slug = strtolower(trim((string)($velden[$index['slug']] ?? '')));
-            $periodeRuw = trim((string)($velden[$index['periode']] ?? ''));
-            $klasseRuw = strtolower(trim((string)($velden[$index['klasse']] ?? '')));
-            $nhgRuw = strtolower(trim((string)($velden[$index['nhg']] ?? '')));
-            $renteRuw = trim((string)($velden[$index['rente']] ?? ''));
 
             $lender = $lenders->get($slug);
             if ($lender === null) {
@@ -60,39 +54,21 @@ final class RateImporter
                 continue;
             }
 
-            $periode = ctype_digit($periodeRuw) ? $periodes->get((int)$periodeRuw) : null;
-            if ($periode === null) {
-                $fouten[] = "Regel $rijnr: onbekende of inactieve periode \"$periodeRuw\".";
+            $resolved = RateRowResolver::resolve(
+                (string)($velden[$index['periode']] ?? ''),
+                (string)($velden[$index['klasse']] ?? ''),
+                (string)($velden[$index['nhg']] ?? ''),
+                (string)($velden[$index['rente']] ?? ''),
+                $periodes,
+                $klassenByCode,
+                $nhgKlasse,
+            );
+            if (is_string($resolved)) {
+                $fouten[] = "Regel $rijnr: $resolved";
                 continue;
             }
 
-            $isNhg = in_array($nhgRuw, self::NHG_WAARDEN, true);
-            if ($isNhg) {
-                if ($nhgKlasse === null) {
-                    $fouten[] = "Regel $rijnr: er is geen actieve NHG-klasse ingesteld.";
-                    continue;
-                }
-                $klasse = $nhgKlasse;
-            } else {
-                $klasse = $klassenByCode->get($klasseRuw);
-                if ($klasse === null || $klasse->nhg) {
-                    $fouten[] = "Regel $rijnr: onbekende of inactieve tariefklasse \"$klasseRuw\".";
-                    continue;
-                }
-            }
-
-            $renteGenormaliseerd = str_replace(',', '.', $renteRuw);
-            if (!is_numeric($renteGenormaliseerd)) {
-                $fouten[] = "Regel $rijnr: rente \"$renteRuw\" is geen getal.";
-                continue;
-            }
-            $rente = (float)$renteGenormaliseerd;
-            if ($rente < 0 || $rente > self::MAX_RENTE) {
-                $fouten[] = "Regel $rijnr: rente \"$renteRuw\" ligt buiten de redelijke grens van 0 tot " . self::MAX_RENTE . '%.';
-                continue;
-            }
-
-            $sleutel = "{$lender->id}-{$periode->id}-{$klasse->id}";
+            $sleutel = "{$lender->id}-{$resolved['fixed_period_id']}-{$resolved['risk_class_id']}";
             if (isset($gezien[$sleutel])) {
                 $fouten[] = "Regel $rijnr: dubbele combinatie van verstrekker, periode en klasse (ook op regel {$gezien[$sleutel]}).";
                 continue;
@@ -102,11 +78,7 @@ final class RateImporter
             $rijen[] = [
                 'lender_id' => $lender->id,
                 'lender_naam' => $lender->name,
-                'fixed_period_id' => $periode->id,
-                'periode_jaren' => $periode->years,
-                'risk_class_id' => $klasse->id,
-                'klasse_naam' => $klasse->name,
-                'percentage' => $rente,
+                ...$resolved,
             ];
         }
 

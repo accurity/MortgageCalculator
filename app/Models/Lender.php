@@ -8,6 +8,7 @@ use App\Services\Mortgage\Constants;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * Een hypotheekverstrekker voor het tarievenblok. Beheerd via /admin/lenders.
@@ -57,6 +58,11 @@ final class Lender extends Model
     public function rateSets(): HasMany
     {
         return $this->hasMany(RateSet::class);
+    }
+
+    public function rateSource(): HasOne
+    {
+        return $this->hasOne(RateSource::class);
     }
 
     /**

@@ -23,6 +23,7 @@ final class SettingSeeder extends Seeder
         Setting::set('io_surcharge', '0.20');
         Setting::set('io_max_share', '0.5');
         Setting::set('alarm_email', '');
+        Setting::set('scraper_user_agent', 'Mozilla/5.0 (compatible; AccurityRatesBot/1.0; +https://mortgagecalculator.accurity.nl)');
 
         Setting::set('fallback_rates', json_encode([
             'nhg' => [1 => 4.11, 5 => 3.76, 10 => 3.86, 20 => 4.16, 30 => 4.36],
